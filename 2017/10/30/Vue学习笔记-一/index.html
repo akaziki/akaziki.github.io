@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="http://ows7n45sl.bkt.clouddn.com/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="http://ows7n45sl.bkt.clouddn.com/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="学习笔记,Vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="VueJs：
+
+数据驱动的组件，为现代化的 Web 界面而生
+
+Vue的核心包括两部分：
+
+响应的数据绑定：数据驱动视图，操作数据而非DOM，通过指令实现功能扩展；
+组件系统：vue应用可以看成是一棵组件树，vue提供组件间的数据流，自定义事件系统，带特效的组件替换效果等；
+
+Vue官网中专门有一篇文章讲Vue和其它框架的对比，个人觉得有点参考价值，从中可以窥见很多Vue重要的特性：
+
+对比 an">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记(一)">
+<meta property="og:url" content="http://akaziki.github.io/2017/10/30/Vue学习笔记-一/index.html">
+<meta property="og:site_name" content="Akaziki">
+<meta property="og:description" content="VueJs：
+
+数据驱动的组件，为现代化的 Web 界面而生
+
+Vue的核心包括两部分：
+
+响应的数据绑定：数据驱动视图，操作数据而非DOM，通过指令实现功能扩展；
+组件系统：vue应用可以看成是一棵组件树，vue提供组件间的数据流，自定义事件系统，带特效的组件替换效果等；
+
+Vue官网中专门有一篇文章讲Vue和其它框架的对比，个人觉得有点参考价值，从中可以窥见很多Vue重要的特性：
+
+对比 an">
+<meta property="og:image" content="https://cn.vuejs.org/images/vue-component.png">
+<meta property="og:image" content="https://cn.vuejs.org/images/lifecycle.png">
+<meta property="og:updated_time" content="2017-10-31T01:07:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue学习笔记(一)">
+<meta name="twitter:description" content="VueJs：
+
+数据驱动的组件，为现代化的 Web 界面而生
+
+Vue的核心包括两部分：
+
+响应的数据绑定：数据驱动视图，操作数据而非DOM，通过指令实现功能扩展；
+组件系统：vue应用可以看成是一棵组件树，vue提供组件间的数据流，自定义事件系统，带特效的组件替换效果等；
+
+Vue官网中专门有一篇文章讲Vue和其它框架的对比，个人觉得有点参考价值，从中可以窥见很多Vue重要的特性：
+
+对比 an">
+<meta name="twitter:image" content="https://cn.vuejs.org/images/vue-component.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://akaziki.github.io/2017/10/30/Vue学习笔记-一/"/>
+
+
+
+
+
+  <title>Vue学习笔记(一) | Akaziki</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Akaziki</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Output is input</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/10/30/Vue学习笔记-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Akaziki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akaziki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue学习笔记(一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T20:51:15+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/30/Vue学习笔记-一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/10/30/Vue学习笔记-一/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>VueJs</strong>：</p>
+<blockquote>
+<p>数据驱动的组件，为现代化的 Web 界面而生</p>
+</blockquote>
+<p>Vue的核心包括两部分：</p>
+<ol>
+<li>响应的数据绑定：数据驱动视图，操作数据而非DOM，通过指令实现功能扩展；</li>
+<li>组件系统：vue应用可以看成是一棵组件树，vue提供组件间的数据流，自定义事件系统，带特效的组件替换效果等；</li>
+</ol>
+<p>Vue官网中专门有<a href="https://cn.vuejs.org/guide/comparison.html" target="_blank" rel="external">一篇文章</a>讲Vue和其它框架的对比，个人觉得有点参考价值，从中可以窥见很多Vue重要的特性：</p>
+<ol>
+<li>对比 angular</li>
+</ol>
+<ul>
+<li>Vue专注视图层，更轻，性能占优；</li>
+<li>Vue只允许父组件单向地传递数据给子组件；</li>
+<li>Vue不执行脏检查，使用基于依赖追踪的观察系统，且使用异步队列更新；</li>
+</ul>
+<ol>
+<li>对比 react</li>
+</ol>
+<ul>
+<li>Vue建立在真实DOM结构上；</li>
+<li>轻量级的 DSL (指令系统)，直观简洁的模板；</li>
+<li>Vue也有自己的状态管理方案：Vuex；</li>
+</ul>
+<ol>
+<li>其它特点</li>
+</ol>
+<ul>
+<li>与webpack无缝整合；</li>
+<li>支持ES6和CSS预处理器；</li>
+<li>另外在组件封装方面，下面一张图就可以很好地展现Vue的特性</li>
+</ul>
+<p><img src="https://cn.vuejs.org/images/vue-component.png" alt=""></p>
+<a id="more"></a>
+<h1 id="demo效果"><a href="#demo效果" class="headerlink" title="demo效果"></a>demo效果</h1><iframe width="100%" height="300" src="//jsfiddle.net/pe3vvkcg/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h1 id="JS代码"><a href="#JS代码" class="headerlink" title="JS代码"></a>JS代码</h1><p>在实现这个demo时，Vue的语法显得相当简洁，整个应用的核心逻辑都包裹在一个传输给 Vue 构造函数作为形参的对象中，demo中主要包括：el，data，methods三部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">new Vue(&#123;</div><div class="line">    el: &quot;#app&quot;, // 指定应用的根元素</div><div class="line">    data: &#123; // 数据</div><div class="line">        newtodo: &apos;&apos;,</div><div class="line">        todos: []</div><div class="line">    &#125;,</div><div class="line">    methods: &#123; // 方法</div><div class="line">        addTodo: function() &#123;</div><div class="line">            if (this.newtodo) &#123;</div><div class="line">                this.todos.push(&#123;</div><div class="line">                    text: this.newtodo</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">            this.newtodo = &apos;&apos;;</div><div class="line">        &#125;,</div><div class="line">        rmTodo: function(index) &#123;</div><div class="line">            this.todos.splice(index, 1);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h1 id="HTML结构"><a href="#HTML结构" class="headerlink" title="HTML结构"></a>HTML结构</h1><p>Vue的 HTML 结构和 angular 有类似的地方：两者都是用 HTML 的方式来扩充 HTML 功能，包括双向数据绑定，循环，事件绑定等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">    &lt;input type=&quot;text&quot; v-model=&quot;newtodo&quot;&gt;</div><div class="line">    &lt;button v-on:click=&quot;addTodo&quot;&gt;add&lt;/button&gt;</div><div class="line">    &lt;ul&gt;</div><div class="line">        &lt;li v-for=&quot;todo in todos&quot;&gt;</div><div class="line">            &#123;&#123;todo.text&#125;&#125;</div><div class="line">            &lt;button v-on:click=&quot;rmTodo($index)&quot;&gt;&amp;Chi;&lt;/button&gt;</div><div class="line">        &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><p>构件vue应用的第一步是调用Vue构造函数，传入的选项对象包括：数据，模板，挂载元素，方法，生命周期钩子等。</p>
+<ul>
+<li>data：每个Vue实例都会代理 data 对象中所有的属性，“代理”属性其实就是建立引用，一方改变，另一方也会变化；</li>
+<li><p>以$开头的属性和方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var data = &#123; a: 1 &#125;;</div><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#example&apos;,</div><div class="line">  data: data</div><div class="line">&#125;);</div><div class="line"></div><div class="line">vm.$data === data // -&gt; true</div><div class="line">vm.$el === document.getElementById(&apos;example&apos;) // -&gt; true</div><div class="line"></div><div class="line">// $watch 是一个实例方法</div><div class="line">vm.$watch(&apos;a&apos;, function (newVal, oldVal) &#123;</div><div class="line">  // 这个回调将在 `vm.a`  改变后调用</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>生命周期钩子：created，compiled，ready，destroyed等，生命周期的示意图:<br><img src="https://cn.vuejs.org/images/lifecycle.png" alt=""></p>
+</li>
+</ul>
+<h1 id="数据绑定语法"><a href="#数据绑定语法" class="headerlink" title="数据绑定语法"></a>数据绑定语法</h1><h2 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h2><ul>
+<li><p>文本<br>Vue的文本插值采用“mustache”双大括号语法，双大括号中的msg表示data中的msg属性字段,like this：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;span&gt;msg: &#123;&#123;msg&#125;&#125;&lt;/span&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>HTML<br>要插入原始的HTML需要使用三大括号语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123;&#123; thisis_html &#125;&#125;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>将内容直接以html的方式插入存在风险，建议只对信任的内容做此操作。</p>
+<ul>
+<li>HTML特性<br>mustache标签也可用在HTML特性内：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;item-&#123;&#123;class&#125;&#125;&quot;&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="绑定表达式"><a href="#绑定表达式" class="headerlink" title="绑定表达式"></a>绑定表达式</h2><blockquote>
+<p>放在mustache标签内的文本被称为绑定表达式，此表达式内可以由一个简单的JavaScript表达式和可选的过滤器组成。</p>
+</blockquote>
+<ul>
+<li><p>表达式：单个的表达式内不能有语句和流程控制语句，除此之外支持全功能的JavaScript表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; number + 1 &#125;&#125;</div><div class="line"></div><div class="line">&#123;&#123; ok ? &apos;YES&apos; : &apos;NO&apos; &#125;&#125;</div><div class="line"></div><div class="line">&#123;&#123; message.split(&apos;&apos;).reverse().join(&apos;&apos;) &#125;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>过滤器：Vue会以“pipeline”的方式将数据传递给过滤器，语法用 | 表示，同时过滤器也支持传参：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; msg | filterA filterA_arg | filterB &#125;&#125;</div></pre></td></tr></table></figure>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>在Vue中，指令以前缀 v- 开头，其职责是：当其表达式的值改变时把某些特殊的行为应用到DOM上。指令的值称为绑定表达式。 指令的参数用冒号 : 隔开，比如 v-bind 指令用于响应的更新html特性，具体的attribute以冒号后参数的形式传递：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a v-bind:href = &quot;url&quot;&gt;&lt;/a&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h2><p>vue提供特定指令的缩写形式：</p>
+<p>v-bind：缩写形式中可以直接去掉v-bind：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a :href = &quot;url&quot;&gt;&lt;/a&gt;;</div></pre></td></tr></table></figure></p>
+<p>v-on：用 @ 表示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a @click = &quot;dosomething&quot;&gt;;</div></pre></td></tr></table></figure></p>
+<h1 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h1><p>计算属性是一个function，在function中返回一个值，这个值可能会依赖于其它数据，定义在 computed 属性下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var vm = new Vue(&#123;</div><div class="line">  el: &apos;#demo&apos;,</div><div class="line">  data: &#123;</div><div class="line">    firstName: &apos;Foo&apos;,</div><div class="line">    lastName: &apos;Bar&apos;</div><div class="line">  &#125;,</div><div class="line">   computed: &#123;</div><div class="line">    fullName: function () &#123;</div><div class="line">      return this.firstName + &apos; &apos; + this.lastName</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<h1 id="Class与Style绑定"><a href="#Class与Style绑定" class="headerlink" title="Class与Style绑定"></a>Class与Style绑定</h1><p> Vue对Class与Style绑定做了专门优化，支持对象与数组语法。</p>
+<ul>
+<li>Class</li>
+</ul>
+<ol>
+<li><p>对象语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:class=&quot;&#123;&apos;class-a&apos;: isA, &apos;class-b&apos;: isB&apos;&#125;&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>数组语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:class=&quot;[classA, classB]&quot;&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>数组语法与对象语法不同之处在于：对象语法中data里存的是属性值命名的字段，而数组中则直接是数组元素命名的字段。</p>
+<ul>
+<li>Style<br>style绑定语法与class类似，不再赘述，如<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &apos;px&apos; &#125;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div v-bind:style=&quot;[styleObjectA, styleObjectB]&quot;&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h1><ul>
+<li><p>v-if：根据 v-if 绑定的值来控制是否渲染DOM，其可以配合 <code>&lt;template&gt;&lt;/template&gt;</code> 实现多个元素的渲染控制，此外还可搭配 v-show 语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;template v-if=&quot;isShow&quot;&gt;</div><div class="line">    &lt;h1&gt;header&lt;/h1&gt;</div><div class="line">    &lt;p&gt;this is content.&lt;/p&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;p v-else&gt;sorry.&lt;/p&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>v-show：根据绑定值控制DOM元素是否显示。使用方法与 v-if 类似。但不可使用 <code>&lt;template&gt;</code> 和 v-show。</p>
+</li>
+</ul>
+<p>两者的区别在于 v-if 是真实的条件渲染，而 v-show 只是控制 display 属性来展示/隐藏元素，DOM元素始终存在，具体使用哪个应该根据场景切换频率来定。</p>
+<h1 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h1><p>列表渲染使用 v-for ，使用方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;ul id=&quot;example-1&quot;&gt;</div><div class="line">  &lt;li v-for=&quot;item in items&quot;&gt;</div><div class="line">    &#123;&#123; item.message &#125;&#125;</div><div class="line">  &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var example1 = new Vue(&#123;</div><div class="line">  el: &apos;#example-1&apos;,</div><div class="line">  data: &#123;</div><div class="line">    items: [</div><div class="line">      &#123; message: &apos;Foo&apos; &#125;,</div><div class="line">      &#123; message: &apos;Bar&apos; &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h1 id="方法与事件处理"><a href="#方法与事件处理" class="headerlink" title="方法与事件处理"></a>方法与事件处理</h1><p>基本的使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;button v-on:click=&quot;say(&apos;hello!&apos;, $event)&quot;&gt;Submit&lt;/button&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">methods: &#123;</div><div class="line">  say: function (msg, event) &#123;</div><div class="line">    // 现在我们可以访问原生事件对象</div><div class="line">    event.preventDefault()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##事件修饰符</p>
+<p>Vue为 event.preventDefault() 和 event.stopPropagation() 提供了两个修饰符：.prevent 和 .stop：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 阻止单击事件冒泡 --&gt;</div><div class="line">&lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;!-- 提交事件不再重载页面 --&gt;</div><div class="line">&lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;</div><div class="line"></div><div class="line">&lt;!-- 修饰符可以串联 --&gt;</div><div class="line">&lt;a v-on:click.stop.prevent=&quot;doThat&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- 只有修饰符 --&gt;</div><div class="line">&lt;form v-on:submit.prevent&gt;&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<p>1.0.16 添加了两个额外的修饰符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 添加事件侦听器时使用 capture 模式 --&gt;</div><div class="line">&lt;div v-on:click.capture=&quot;doThis&quot;&gt;...&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 --&gt;</div><div class="line">&lt;div v-on:click.self=&quot;doThat&quot;&gt;...&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="表单控件绑定"><a href="#表单控件绑定" class="headerlink" title="表单控件绑定"></a>表单控件绑定</h1><blockquote>
+<p>使用 v-model 指令在表单元素上创建双向数据绑定。</p>
+</blockquote>
+<p>常见表单元素的绑定方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;!--text--&gt;</div><div class="line">&lt;input type=&quot;text&quot; v-model=&quot;message&quot;&gt;</div><div class="line"></div><div class="line">&lt;!--textarea--&gt;</div><div class="line">&lt;textarea v-model=&quot;message&quot;&gt;&lt;/textarea&gt;</div><div class="line"></div><div class="line">&lt;!--checkbox--&gt;</div><div class="line">&lt;input type=&quot;checkbox&quot; id=&quot;checkbox&quot; v-model=&quot;checked&quot;&gt;</div><div class="line"></div><div class="line">&lt;!--radio：不需要通过name来绑定一组radio--&gt;</div><div class="line">&lt;input type=&quot;radio&quot; id=&quot;one&quot; value=&quot;One&quot; v-model=&quot;picked&quot;&gt;</div><div class="line">&lt;label for=&quot;one&quot;&gt;One&lt;/label&gt;</div><div class="line">&lt;br&gt;</div><div class="line">&lt;input type=&quot;radio&quot; id=&quot;two&quot; value=&quot;Two&quot; v-model=&quot;picked&quot;&gt;</div><div class="line">&lt;label for=&quot;two&quot;&gt;Two&lt;/label&gt;</div><div class="line"></div><div class="line">&lt;!--select：option有value选项时取value值，否则去innerText值--&gt;</div><div class="line">&lt;select v-model=&quot;selected&quot;&gt;</div><div class="line">  &lt;option selected&gt;A&lt;/option&gt;</div><div class="line">  &lt;option&gt;B&lt;/option&gt;</div><div class="line">  &lt;option&gt;C&lt;/option&gt;</div><div class="line">&lt;/select&gt;</div><div class="line">&lt;span&gt;Selected: &#123;&#123; selected &#125;&#125;&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;!--v-model配合v-bind使用以绑定value到动态属性上--&gt;</div><div class="line">&lt;input type=&quot;checkbox&quot; v-model=&quot;pick&quot; v-bind:true-value=&quot;a&quot;  v-bind:false-value=&quot;b&quot;&gt;</div><div class="line">&lt;span&gt;Selected: &#123;&#123; pick &#125;&#125;&lt;/span&gt;</div><div class="line"></div><div class="line">&lt;!--使用lazy参数将事件从input变为change--&gt;</div><div class="line">&lt;!-- 在 &quot;change&quot; 而不是 &quot;input&quot; 事件中更新 --&gt;</div><div class="line">&lt;input v-model=&quot;msg&quot; lazy&gt;</div><div class="line"></div><div class="line">&lt;!--将用户的输入转为 Number 类型（如果原值的转换结果为 NaN 则返回原值） --&gt;</div><div class="line">&lt;input v-model=&quot;age&quot; number&gt;</div><div class="line"></div><div class="line">&lt;!--debounce 设置一个最小的延时，在每次敲击之后延时同步输入框的值与数据。--&gt;</div><div class="line">&lt;!--注意 debounce 参数不会延迟 input 事件：它延迟“写入”底层数据。--&gt;</div><div class="line">&lt;input v-model=&quot;msg&quot; debounce=&quot;500&quot;&gt;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢你请我吃糖果</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://ows7n45sl.bkt.clouddn.com/weixin.png" alt="Akaziki 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://ows7n45sl.bkt.clouddn.com/Alipay.jpg" alt="Akaziki 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/30/CSS样式大全/" rel="next" title="CSS样式大全">
+                <i class="fa fa-chevron-left"></i> CSS样式大全
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/02/Flex布局笔记/" rel="prev" title="Flex布局笔记">
+                Flex布局笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Akaziki</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/akaziki/akaziki.github.io" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:near29@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/near.lee.90" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#demo效果"><span class="nav-number">1.</span> <span class="nav-text">demo效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JS代码"><span class="nav-number">2.</span> <span class="nav-text">JS代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML结构"><span class="nav-number">3.</span> <span class="nav-text">HTML结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造函数"><span class="nav-number">4.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据绑定语法"><span class="nav-number">5.</span> <span class="nav-text">数据绑定语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#插值"><span class="nav-number">5.1.</span> <span class="nav-text">插值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定表达式"><span class="nav-number">5.2.</span> <span class="nav-text">绑定表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令"><span class="nav-number">5.3.</span> <span class="nav-text">指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缩写"><span class="nav-number">5.4.</span> <span class="nav-text">缩写</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算属性"><span class="nav-number">6.</span> <span class="nav-text">计算属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Class与Style绑定"><span class="nav-number">7.</span> <span class="nav-text">Class与Style绑定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件渲染"><span class="nav-number">8.</span> <span class="nav-text">条件渲染</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#列表渲染"><span class="nav-number">9.</span> <span class="nav-text">列表渲染</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法与事件处理"><span class="nav-number">10.</span> <span class="nav-text">方法与事件处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表单控件绑定"><span class="nav-number">11.</span> <span class="nav-text">表单控件绑定</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Akaziki</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: document.location.href, 
+            owner: 'akaziki',
+            repo: 'akaziki.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12130f576ed57aad52ff1e8b21125b25eadb104c',
+            
+                client_id: '58ec2800f2e613ef61f7'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

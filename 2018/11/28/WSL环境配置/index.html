@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="http://ows7n45sl.bkt.clouddn.com/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="http://ows7n45sl.bkt.clouddn.com/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="wsl," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="zsh和oh-my-zsh12sudo apt install zshsh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+设置terminal的shell环境默认为zsh，输入以下命令1chsh -s /bin/zsh
+这条命令的 ` 是键盘ta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WSL环境配置">
+<meta property="og:url" content="http://akaziki.github.io/2018/11/28/WSL环境配置/index.html">
+<meta property="og:site_name" content="Akaziki">
+<meta property="og:description" content="zsh和oh-my-zsh12sudo apt install zshsh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+设置terminal的shell环境默认为zsh，输入以下命令1chsh -s /bin/zsh
+这条命令的 ` 是键盘ta">
+<meta property="og:updated_time" content="2018-11-28T03:01:52.701Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WSL环境配置">
+<meta name="twitter:description" content="zsh和oh-my-zsh12sudo apt install zshsh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+设置terminal的shell环境默认为zsh，输入以下命令1chsh -s /bin/zsh
+这条命令的 ` 是键盘ta">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://akaziki.github.io/2018/11/28/WSL环境配置/"/>
+
+
+
+
+
+  <title>WSL环境配置 | Akaziki</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Akaziki</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Output is input</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2018/11/28/WSL环境配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Akaziki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akaziki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WSL环境配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-28T11:01:11+08:00">
+                2018-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/28/WSL环境配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/11/28/WSL环境配置/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="zsh和oh-my-zsh"><a href="#zsh和oh-my-zsh" class="headerlink" title="zsh和oh-my-zsh"></a>zsh和oh-my-zsh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt install zsh</div><div class="line">sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"</div></pre></td></tr></table></figure>
+<h2 id="设置terminal的shell环境默认为zsh，输入以下命令"><a href="#设置terminal的shell环境默认为zsh，输入以下命令" class="headerlink" title="设置terminal的shell环境默认为zsh，输入以下命令"></a>设置terminal的shell环境默认为zsh，输入以下命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chsh -s /bin/zsh</div></pre></td></tr></table></figure>
+<p>这条命令的 ` 是键盘tab上面的那个 ,接下来重启终端</p>
+<h2 id="zsh颜色主题和终端颜色主题-Color-Theme"><a href="#zsh颜色主题和终端颜色主题-Color-Theme" class="headerlink" title="zsh颜色主题和终端颜色主题 (Color Theme)"></a>zsh颜色主题和终端颜色主题 (Color Theme)</h2><p>要配置两个部分：zsh主题（zsh theme）和终端的颜色主题（Color Theme）</p>
+<p>由于使用了<code>oh-my-zsh</code>，修改zsh的主题很容易，只要编辑<code>~/.zshrc</code>文件，找到<code>ZSH_THEME</code>一行，改为<code>agnoster</code>即可</p>
+<p>但是Windows默认终端的Color Theme改起来比较费劲，需要使用一个叫做colortool的工具。他是微软自带的一个修改终端配色方案的工具<br>首先在<a href="https://github.com/Microsoft/console/releases" target="_blank" rel="external">这里</a> 下载</p>
+<p>下载<code>colortool.zip</code>并解压后，进入文件夹，按住<code>shift</code>并点击右键选择在此处打开Powershell窗口</p>
+<p>在其中输入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.\colortool.exe -d solarized_dark</div></pre></td></tr></table></figure>
+<p>回车后，关闭这个新打开的Powershell窗口，回到之前的WSL窗口，输入如下命令以使zsh配置生效:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.zshrc</div></pre></td></tr></table></figure>
+<h2 id="安装-Fira-Code字体"><a href="#安装-Fira-Code字体" class="headerlink" title="安装 Fira Code字体"></a>安装 Fira Code字体</h2><p>点击这里下载：<a href="https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/ttf/FiraCode-Retina.ttf" target="_blank" rel="external">https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/ttf/FiraCode-Retina.ttf</a></p>
+<h2 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h2><h3 id="z"><a href="#z" class="headerlink" title="z"></a>z</h3><p>oh-my-zsh自带插件，开启即可<br> 快捷访问常用目录的插件，可以让你非常方便的访问经常要使用的目录<br> 比如我经常使用 <code>cd ~/workspace/mpa-web</code>，安装后可以<code>z m[tab][return]</code>来快速访问<br> <em>PS: 刚装上后需要输入几次正常的 cd 命令之后他才能搜集到足够的信息整理出常用路径</em></p>
+<h3 id="d"><a href="#d" class="headerlink" title="d"></a>d</h3><p>oh-my-zsh自带插件，开启即可</p>
+<p>使用命令<code>d</code>列出历史纪录中10个最近的目录，输入数字可以直接跳转<br>在跳来跳去配置环境时很有用，因为你往往不记得刚才的配置文件在哪个路径里面</p>
+<h3 id="colored-man-pages"><a href="#colored-man-pages" class="headerlink" title="colored-man-pages"></a>colored-man-pages</h3><p>oh-my-zsh自带插件，开启即可<br>给man命令中的文档加上一些语法高亮。man命令可以用来查看其他命令的文档，比如<code>man git</code>就会展示git命令的介绍。使用这个插件之后可以让这个文档可读性稍微好一点点</p>
+<h3 id="syntax-highlighting-amp-zsh-autosuggestions"><a href="#syntax-highlighting-amp-zsh-autosuggestions" class="headerlink" title="syntax-highlighting &amp; zsh-autosuggestions"></a>syntax-highlighting &amp; zsh-autosuggestions</h3><p>插件repo<br> <a href="https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh" target="_blank" rel="external">https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md#oh-my-zsh</a><br> <a href="https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md" target="_blank" rel="external">https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md</a></p>
+<p>这两个插件可以让你在终端输入命令时有语法高亮和自动补全。虽然放在了最后，但是这两个插件才是zsh真正的killer plugin :p</p>
+<p>使用同样很简单，先通过如下命令安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd ~/ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting git clone https://github.com/zsh-users/zsh-autosuggestions $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-autosuggestions</div></pre></td></tr></table></figure>
+<p>然后和上面一样，在 <code>.zshrc</code> 加上插件名即可。</p>
+<p>上面所有插件都打开的话，<code>~/.zshrc</code>中应该这样写:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">plugins=(z d colored-man-pages zsh-autosuggestions zsh-syntax-highlighting)</div></pre></td></tr></table></figure>
+<h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><h3 id="首先安装必要的包。"><a href="#首先安装必要的包。" class="headerlink" title="首先安装必要的包。"></a>首先安装必要的包。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install build-essential libssl-dev</div></pre></td></tr></table></figure>
+<h3 id="然后安装nvm的脚本，有两种方法curl或wget"><a href="#然后安装nvm的脚本，有两种方法curl或wget" class="headerlink" title="然后安装nvm的脚本，有两种方法curl或wget"></a>然后安装nvm的脚本，有两种方法curl或wget</h3><p>通过curl:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.4/install.sh | bash</div></pre></td></tr></table></figure>
+<p>通过wget:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.4/install.sh | bash</div></pre></td></tr></table></figure>
+<h3 id="检查安装及使用"><a href="#检查安装及使用" class="headerlink" title="检查安装及使用"></a>检查安装及使用</h3><p>注意，此处需要重启terminal终端才能生效。<br>使用nvm –help查看是否安装成功。<br>使用nvm ls查看已经安装的版本。<br>使用nvm ls-remote查看所有远端版本。<br>使用nvm install安装某个版本，如nvm install v5.3.0。</p>
+<p>使用nvm use切换到某个版本，如nvm use v5.3.0使用5.3.0，nvm use system使用系统版本。</p>
+<h3 id="设置镜像源为淘宝"><a href="#设置镜像源为淘宝" class="headerlink" title="设置镜像源为淘宝"></a>设置镜像源为淘宝</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm config set registry https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
+<h2 id="配置别名"><a href="#配置别名" class="headerlink" title="配置别名"></a>配置别名</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim ~/.bashrc</div></pre></td></tr></table></figure>
+<p>在文件中添加，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">alias AD7='cd ~/GS700E/android/kernel/arch/arm64/boot/dts'</div><div class="line">alias AD5='cd ~/AD500A/android/kernel/arch/arm/boot/dts'</div><div class="line">alias GS7='cd ~/AD700A/android/kernel/arch/arm64/boot/dts'</div></pre></td></tr></table></figure>
+<p>保存退出,然后执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
+<h2 id="zsh配置别名"><a href="#zsh配置别名" class="headerlink" title="zsh配置别名"></a>zsh配置别名</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim ~/.zshrc</div></pre></td></tr></table></figure>
+<p>在文件中添加，如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">alias AD7='cd ~/GS700E/android/kernel/arch/arm64/boot/dts'</div><div class="line">alias AD5='cd ~/AD500A/android/kernel/arch/arm/boot/dts'</div><div class="line">alias GS7='cd ~/AD700A/android/kernel/arch/arm64/boot/dts'</div></pre></td></tr></table></figure>
+<p>保存退出,然后执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.zshrc</div></pre></td></tr></table></figure>
+<h2 id="OpenSSH-Server-设定"><a href="#OpenSSH-Server-设定" class="headerlink" title="OpenSSH Server 设定"></a>OpenSSH Server 设定</h2><p>首先，先使用 <code>ssh-keygen</code> 产生key，接着打开<code>sshd_config</code> 來编辑设定：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo /usr/bin/ssh-keygen -A</div><div class="line">sudo vim /etc/ssh/sshd_config</div></pre></td></tr></table></figure>
+<p>启动OpenSSH Server ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/ssh start</div></pre></td></tr></table></figure>
+<h2 id="配置-VSCode-终端默认使用-WSL-的-bash"><a href="#配置-VSCode-终端默认使用-WSL-的-bash" class="headerlink" title="配置 VSCode 终端默认使用 WSL 的 bash"></a>配置 VSCode 终端默认使用 WSL 的 bash</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"terminal.integrated.shell.windows"</span>: <span class="string">"C:\\Windows\\System32\\wsl.exe"</span>,</div><div class="line">    <span class="attr">"terminal.integrated.fontFamily"</span>: <span class="string">"Menlo for Powerline"</span>//字体</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果要调用 32 位进程，需要配置使用 Sysnative：<code>C:\\Windows\\sysnative\\bash.exe</code></li>
+<li>如果 VSCode 是 64 位版本，可以直接使用：<code>C:\\WINDOWS\\System32\\bash.exe</code> 或者 <code>C:\\WINDOWS\\System32\\wsl.exe</code></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>谢谢你请我吃糖果</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://ows7n45sl.bkt.clouddn.com/weixin.png" alt="Akaziki 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://ows7n45sl.bkt.clouddn.com/Alipay.jpg" alt="Akaziki 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/wsl/" rel="tag"># wsl</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/15/前端校招总结-内附最新面试知识点与解答/" rel="next" title="前端面试知识点与解答">
+                <i class="fa fa-chevron-left"></i> 前端面试知识点与解答
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Akaziki</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/akaziki/akaziki.github.io" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:near29@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/near.lee.90" target="_blank" title="Facebook">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh和oh-my-zsh"><span class="nav-number">1.</span> <span class="nav-text">zsh和oh-my-zsh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置terminal的shell环境默认为zsh，输入以下命令"><span class="nav-number">2.</span> <span class="nav-text">设置terminal的shell环境默认为zsh，输入以下命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh颜色主题和终端颜色主题-Color-Theme"><span class="nav-number">3.</span> <span class="nav-text">zsh颜色主题和终端颜色主题 (Color Theme)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Fira-Code字体"><span class="nav-number">4.</span> <span class="nav-text">安装 Fira Code字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件推荐"><span class="nav-number">5.</span> <span class="nav-text">插件推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#z"><span class="nav-number">5.1.</span> <span class="nav-text">z</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d"><span class="nav-number">5.2.</span> <span class="nav-text">d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#colored-man-pages"><span class="nav-number">5.3.</span> <span class="nav-text">colored-man-pages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#syntax-highlighting-amp-zsh-autosuggestions"><span class="nav-number">5.4.</span> <span class="nav-text">syntax-highlighting & zsh-autosuggestions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装node"><span class="nav-number">6.</span> <span class="nav-text">安装node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先安装必要的包。"><span class="nav-number">6.1.</span> <span class="nav-text">首先安装必要的包。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后安装nvm的脚本，有两种方法curl或wget"><span class="nav-number">6.2.</span> <span class="nav-text">然后安装nvm的脚本，有两种方法curl或wget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查安装及使用"><span class="nav-number">6.3.</span> <span class="nav-text">检查安装及使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置镜像源为淘宝"><span class="nav-number">6.4.</span> <span class="nav-text">设置镜像源为淘宝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置别名"><span class="nav-number">7.</span> <span class="nav-text">配置别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh配置别名"><span class="nav-number">8.</span> <span class="nav-text">zsh配置别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenSSH-Server-设定"><span class="nav-number">9.</span> <span class="nav-text">OpenSSH Server 设定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-VSCode-终端默认使用-WSL-的-bash"><span class="nav-number">10.</span> <span class="nav-text">配置 VSCode 终端默认使用 WSL 的 bash</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Akaziki</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: document.location.href, 
+            owner: 'akaziki',
+            repo: 'akaziki.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '12130f576ed57aad52ff1e8b21125b25eadb104c',
+            
+                client_id: '58ec2800f2e613ef61f7'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
