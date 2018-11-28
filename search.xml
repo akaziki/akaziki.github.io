@@ -95,8 +95,8 @@
     <url>%2F2017%2F10%2F08%2Fhexo%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%2F</url>
     <content type="text"><![CDATA[(10月9号更新…)emmmmm…特意过来更新一下。因为一直都是在墙外，所以测试的时候没有考虑到Disqus国内能不能用的问题。昨天朋友说看不到我的评论系统才醒悟过来。所以现在国内基本没有可以直接用的评论系统了，然后朋友就自己搭建了一个(膜拜大佬)，还写了篇博文来说明具体步骤。奈何我是github page，不能直接使用他的评论系统。有兴趣的话可以到我朋友博客看看。 &emsp;&emsp;文章主要描述了hexo静态博客框架通过Disqus来添加评论功能的详细步骤。之所以选择disqus的原因是多说、网易云跟帖已经停止运营了，然后畅言需要进行ICP备案(我有句mmp…)。剩下的选择只有disqus了，而且disqus不需要主题支持，hexo的_config.yml本身就可以进行配置。 &emsp;&emsp;以我自己博客所选主题yilia为例，在 themes/yilia/路径下的_config.yml文件中，disqus设置为真disqus: true，并添加disqus相关项 disqus_shortname: akaziki(你自己的disqus的website name)，akaziki为你在Disqus上配置的site的shorname（接下来会配置shortname），Disqus的配置步骤如下: &emsp;&emsp;Disqus网址，注册完账号登录后点击左上角Home跳转到主页，然后点GET STARTED，再次跳转后选择I want to install Disqus on my site，然后在新页面中填写你的website name、type和language，如下图： &emsp;&emsp;创建成功后，在新页面点击Install Disqus，Platform选择为Universal Code，拉到页面最下面点击按钮即可。 &emsp;&emsp;然后点击Configure Disqus，将Website Name改为你想要的名称，我的为akaziki，URL设置为你的Github page地址，然后完成。 &emsp;&emsp;基本上所有步骤都进行完了，你可以依次执行clean，generate和deploy来部署。]]></content>
       <tags>
-        <tag>HEXO</tag>
         <tag>博客</tag>
+        <tag>HEXO</tag>
       </tags>
   </entry>
   <entry>
@@ -104,8 +104,8 @@
     <url>%2F2017%2F10%2F02%2FMarkDown%E4%BD%BF%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7%2F</url>
     <content type="text"><![CDATA[写作目的在看了一些MarkDown的入门语法之后，发现许多的文档对一些比较细微的问题缺乏解释。所以打算再进行补充一下。 目标读者使用MarkDown仅仅为了排版出更好看的文章，而不关注技术细节，不懂HTML的用户。 1、首行缩进写文章时，我们常常希望能够首行缩进，这时可以在段首加入&ensp;来输入一个空格.加入&emsp;来输入两个空格。 示例文本1&amp;emsp;&amp;emsp;一语未了，只听后院中有人笑声，说：“我来迟了，不曾迎接远客！&quot; 效果 &emsp;&emsp;一语未了，只听后院中有人笑声，说：“我来迟了，不曾迎接远客！ 2、插入代码插入代码的方式有两种 在每行代码前加入4个空格或者添加一个制表符（TAB键） 在代码两侧添加三个反引号‘```’。 两种方法都有需要注意的地方，很多入门文档未能提及。 2.1 方式1其缩进是相对于当前格式状态下的。 示例文本 列表项 列表项[TAB][TAB]printf(“hello world!”); 效果 列表项 列表项printf(&quot;hello world!&quot;); 在列表项状态下，需要输入两次TAB键(制表符)才能以代码格式插入(本主题下的代码颜色显示有点怪异)。 2.2 方式2反引号最好在代码的前后行添加，而不是直接加在代码两边。 示例文本 ```var sta = “swift你好，我叫akaziki”println(sta)``` 效果12var sta = &quot;swift你好，我叫akaziki&quot;println(sta) 3、添加空行添加空行可以结束先前的格式状态。个人建议在改变格式时，均添加一个空行。 示例文本 >引用状态[空行]###标题状态[空行]------[空行]- 列表状态- 列表状态 效果 引用状态 标题状态 列表状态 列表状态 4、其他 普通段落尽量不用空格或制表符来缩进，即使使用它们后得到的效果看似是对的。 [数字] + ‘.’ + [空格] 的形式会呼出有序的项目列表。因此如果你在正文中恰好出现这种形式，那么可以在‘.’的前面加上‘\’来避免出现有序列表。 2017-10-02]]></content>
       <tags>
-        <tag>博客</tag>
         <tag>Markdown</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
 </search>
