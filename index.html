@@ -1413,7 +1413,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/04/Vue学习笔记-二/">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/08/Vue学习笔记-四/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Akaziki">
@@ -1432,7 +1432,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/04/Vue学习笔记-二/" itemprop="url">Vue学习笔记(二)</a></h1>
+                <a class="post-title-link" href="/2017/11/08/Vue学习笔记-四/" itemprop="url">Vue学习笔记-四</a></h1>
         
 
         <div class="post-meta">
@@ -1444,8 +1444,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T20:57:09+08:00">
-                2017-11-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T18:20:10+08:00">
+                2017-11-08
               </time>
             
 
@@ -1483,22 +1483,60 @@
 
       
         
-          <blockquote>
-<p>组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素，Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 <code>is</code>特性扩展。</p>
+          
+            <p>升级vue2.0</p>
+<p>为什么要升级Vue2.0呢？个人觉得以下改变比较吸引人：</p>
+<ul>
+<li>更轻更快；</li>
+<li>加入虚拟DOM；</li>
+<li>更清晰合理的生命周期架构；</li>
+<li>更简洁迷你的API；</li>
+<li>更符合未来技术规范的设计；</li>
+<li>解锁JSX和render函数；</li>
+<li><p>······</p>
+</li>
+<li><p>······</p>
+</li>
+</ul>
+<h2 id="vue-migration-helper"><a href="#vue-migration-helper" class="headerlink" title="vue-migration-helper"></a>vue-migration-helper</h2><p>第一步是使用官方的升级助手<a href="https://github.com/vuejs/vue-migration-helper" target="_blank" rel="external">vue-migration-helper</a>检测项目代码中可能需要升级的地方。我的小项目代码中共检测出 <strong>40</strong> 个地方可能需要修改，具体会在下面介绍。</p>
+<h2 id="render函数"><a href="#render函数" class="headerlink" title="render函数"></a>render函数</h2><p>关于render函数，官方是这样说的：</p>
+<blockquote>
+<p>大多数情况下使用基于 <code>template</code> 构件组件都是推荐的，但是 <code>render()</code>函数可以让你在组件中运用更强大的JS。</p>
 </blockquote>
-<h1 id="组件使用"><a href="#组件使用" class="headerlink" title="组件使用"></a>组件使用</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var MyComponent = Vue.extend(&#123;</div><div class="line">  // 选项...</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>注意：Vue构造器的多数选项也可以用在 <code>Vue.extend()</code> 中，不过有两个特例：<code>data</code> 和 <code>el</code>。如果只是将数据直接放入创建函数中，则所有组件实例都会共享同样的数据，有时候这并不是我们希望的（实际上Vue在注册组件时直接给data对象会抛出一个警告，最终会拒绝执行data解析工作），所以可以传入一个函数作为data选项——函数返回一个真正的数据对象。</p>
-<h2 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h2><h3 id="全局注册"><a href="#全局注册" class="headerlink" title="全局注册"></a>全局注册</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Vue.component(tag, constructor);</div><div class="line"></div><div class="line">//like this:</div><div class="line">Vue.component(&quot;my-component&quot;, MyComponent);</div></pre></td></tr></table></figure>
-<p><code>tag</code> 表示自定义的组件名，建议使用 小写，用短杠分隔 的规则。<code>component</code> 是创建的组件。注册之后就可以在其它模板中使用此组件。</p>
-<h3 id="局部注册"><a href="#局部注册" class="headerlink" title="局部注册"></a>局部注册</h3><p>局部注册的目的在于:让组件只能用在其它组件内，而不是全局都可以使用。，在实例选项 <code>components</code> 中注册：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var Child = Vue.extend(&#123; /* ... */ &#125;);</div><div class="line"></div><div class="line">var Parent = Vue.extend(&#123;</div><div class="line">  template: &apos;...&apos;,</div><div class="line">  components: &#123;</div><div class="line">    // &lt;my-component&gt; 只能用在父组件模板内</div><div class="line">    &apos;my-component&apos;: Child</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h3 id="注册语法糖"><a href="#注册语法糖" class="headerlink" title="注册语法糖"></a>注册语法糖</h3><p><code>Vue.component()</code> 注册函数的第二个选项可以直接传入选项对象，Vue会自动调用 <code>Vue.extend()</code> 函数创建组件，使用方式可简化为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 在一个步骤中扩展与注册</div><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 局部注册也可以这么做</div><div class="line">var Parent = Vue.extend(&#123;</div><div class="line">  components: &#123;</div><div class="line">    &apos;my-component&apos;: &#123;</div><div class="line">     template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/04/Vue学习笔记-二/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<p><code>render()</code> 接收一个叫 <code>createElement</code> 的函数作为形参，它的作用是创建<strong>虚拟DOM节点</strong>。<code>createElement</code>说明如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 返回虚拟DOM对象</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">// &#123;String | Object | Function&#125;</span></div><div class="line">  <span class="comment">// 必选项，HTML节点名，自定义组件或者返回这些的函数</span></div><div class="line">  <span class="string">'div'</span>,</div><div class="line">  <span class="comment">// &#123;Object&#125;</span></div><div class="line">  <span class="comment">// 一个对象，描述了用在template中的属性</span></div><div class="line">  &#123;</div><div class="line">    <span class="comment">// (比如props)</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// &#123;String | Array&#125;</span></div><div class="line">  <span class="comment">// 子节点集合，可以是字符串或者是另一个createElement函数</span></div><div class="line">  [</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'hello world'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      props: &#123;</div><div class="line">        someProp: <span class="string">'foo'</span></div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="string">'bar'</span></div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="createElement第二个形参详解"><a href="#createElement第二个形参详解" class="headerlink" title="createElement第二个形参详解"></a>createElement第二个形参详解</h3><p>上文说了这是个描述template中涉及属性的对象，一般来说我们在template中用到的无非：<code>v-bind</code>，<code>v-on</code>，<code>slot</code>，<code>key</code>，<code>ref</code>和某些原生DOM属性，下面是一个较为完整的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="comment">// Same API as `v-bind:class`</span></div><div class="line">  <span class="string">'class'</span>: &#123;</div><div class="line">    foo: <span class="literal">true</span>,</div><div class="line">    bar: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Same API as `v-bind:style`</span></div><div class="line">  style: &#123;</div><div class="line">    color: <span class="string">'red'</span>,</div><div class="line">    fontSize: <span class="string">'14px'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Normal HTML attributes</span></div><div class="line">  attrs: &#123;</div><div class="line">    id: <span class="string">'foo'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Component props</span></div><div class="line">  props: &#123;</div><div class="line">    myProp: <span class="string">'bar'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// DOM properties</span></div><div class="line">  domProps: &#123;</div><div class="line">    innerHTML: <span class="string">'baz'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 使用v-on绑定的事件处理函数</span></div><div class="line">  on: &#123;</div><div class="line">    click: <span class="keyword">this</span>.clickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 仅用于在自定义组件上绑定原生事件的native描述符</span></div><div class="line">  nativeOn: &#123;</div><div class="line">    click: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 自定义指令</span></div><div class="line">  directives: [</div><div class="line">    &#123;</div><div class="line">      name: <span class="string">'my-custom-directive'</span>, </div><div class="line">      value: <span class="string">'2'</span></div><div class="line">      expression: <span class="string">'1 + 1'</span>,</div><div class="line">      arg: <span class="string">'foo'</span>,</div><div class="line">      modifiers: &#123;</div><div class="line">        bar: <span class="literal">true</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="comment">// The name of a slot if the child of a component</span></div><div class="line">  slot: <span class="string">'name-of-slot'</span></div><div class="line">  <span class="comment">// Other special top-level properties</span></div><div class="line">  key: <span class="string">'myKey'</span>,</div><div class="line">  ref: <span class="string">'myRef'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="在reder中使用JSX"><a href="#在reder中使用JSX" class="headerlink" title="在reder中使用JSX"></a>在reder中使用JSX</h3><p>通过 <strong>Babel plugin</strong> 的支持，现在你可以在vue中使用JSX语法了！（<a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx" target="_blank" rel="external">插件地址</a>）它所做的事是将JSX语法的模板转换为render函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div id=<span class="string">"foo"</span>&gt;&#123;<span class="keyword">this</span>.text&#125;&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">/</span><span class="regexp">/ To the following JavaScript:</span></div><div class="line"><span class="regexp">h('div', &#123;</span></div><div class="line"><span class="regexp">  attrs: &#123;</span></div><div class="line"><span class="regexp">    id: 'foo'</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;, [this.text])</span></div></pre></td></tr></table></figure>
+<p>使用jsx语法编写的render组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> AnchoredHeading <span class="keyword">from</span> <span class="string">'./AnchoredHeading.vue'</span></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  el: <span class="string">'#demo'</span>,</div><div class="line">  render (h) &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;AnchoredHeading level=&#123;<span class="number">1</span>&#125;&gt;</div><div class="line">        &lt;span&gt;Hello&lt;<span class="regexp">/span&gt; world!</span></div><div class="line"><span class="regexp">      &lt;/</span>AnchoredHeading&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="函数化组件"><a href="#函数化组件" class="headerlink" title="函数化组件"></a>函数化组件</h3><p><strong>函数化的组件</strong>意味着：无状态，非实例，内部没有this：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Vue.component(<span class="string">'my-component'</span>, &#123;</div><div class="line">  functional: <span class="literal">true</span>,</div><div class="line">  <span class="comment">// To compensate for the lack of an instance,</span></div><div class="line">  <span class="comment">// we are now provided a 2nd context argument.</span></div><div class="line">  render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement, context</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Props are optional</span></div><div class="line">  props: &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>具体介绍见：<a href="https://vuejs.org/guide/render-function.html#Functional-Components" target="_blank" rel="external">Functional Components</a>。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><strong>生命周期</strong>改动比较大，但是升级起来也很容易，具体见下图，有需要照着改就行，不再多说： <img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt="img"></p>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><p>这部分是比较麻烦的，因为之前有用的 <code>$dispatch</code> 和 <code>$broadcast</code> 都被废弃了，组件 <code>events</code>选项也被废弃了，因此这次不得不重构事件部分的代码，原则和注意点如下：</p>
+<ul>
+<li>父组件向子组件传递数据使用<code>props</code>，子组件中<strong>禁止</strong>修改props属性，同时绑定props不再支持双向绑定；</li>
+<li>子组件向父组件传递事件使用<code>v-on</code>，子组件中使用<code>$emit(&#39;test&#39;)</code>触发事件，父组件使用<code>v-on:test</code>订阅事件。在自定义组件上订阅原生事件需要加<code>.native</code>修饰符；</li>
+<li>兄弟组件或者嵌套比较深的组件之间可以通过新建一个Vue实例作为<strong>event hub</strong>，当然也推荐使用<code>vuex</code>；</li>
+<li>使用<code>$emit</code>触发自定义事件时，事件名称需要以<code>xx-xxx</code>的方式命名；</li>
+</ul>
+<p><em>特别注意：</em> <strong>父组件上不能使用 v-on 订阅其子组件中嵌套组件触发的事件。也就是说 $emit 触发的事件不会像原生事件一样冒泡！</strong></p>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>vue2.0对动画做了非常大的更新，原来的<code>transition</code>属性被彻底废弃，取而代之的是更强大的 <code>&lt;transition&gt;</code>元素，以前如果用到了动画必然是要重写的，而且css的命名规则也变了，css也得重写······</p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>之前是直接使用vue提供的<code>filterBy</code> 方法，但是在2.0中被废弃了，这部分也得使用<strong>计算属性</strong>重构。这里需要说明的是，本应用中用到了两层嵌套的 <code>v-for</code> ，第二层的<code>v-for</code>依赖于第一层<code>v-for</code>给的数据，且每一个列表都需要 <strong>filter</strong>，第一层可以使用计算属性，那么第二层呢？ 答案是用方法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--itemsData是计算属性，itemsFilter是方法--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"items in itemsData"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in itemsFilter(items)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ul>
+<li><code>v-for</code>中废弃了<code>$index</code>，使用时改为主动声明：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"catalog"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(catalog, index) in catalogs"</span> <span class="attr">v-on:click</span>=<span class="string">"updateCatalog(index)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>v-el</code> 和 <code>v-ref</code> 合并为一个 <code>ref</code> 属性，当元素为自定义组件时<code>ref</code>指向组件，否则指向<strong>真实的</strong>DOM元素；</li>
+<li>vue2.0默认输出<code>vue.common.js</code>，common不支持<code>template</code>选项，所以如果你在组件选项中用到了template（通过vue-loader处理过的.vue文件中的template不会有问题）需要<a href="https://github.com/vuejs/vue/wiki/Vue-2.0-RC-Starter-Resources#standalone-vs-runtime-builds" target="_blank" rel="external">在webpack中设置vue的别名</a>；</li>
+<li>随着升级2.0，vue生态的其它插件也有升级情况，webpack配置也有变化，建议更换。（ps：yarn第一次的install的时候也很慢···）</li>
+</ul>
+
+          
         
       
     </div>
@@ -1536,7 +1574,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1582,7 +1620,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
