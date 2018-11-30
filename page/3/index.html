@@ -248,6 +248,134 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/10/11/CSS选择器的权重问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Akaziki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akaziki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/11/CSS选择器的权重问题/" itemprop="url">CSS选择器的权重问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-11T10:06:20+08:00">
+                2017-10-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="正文："><a href="#正文：" class="headerlink" title="正文："></a>正文：</h2><p>&emsp;&emsp;css选择器的权重问题一直以来都是困扰我的一件事情。为了解决选择器能如期地修改样式，我总是在想要用的选择器前边加上多个选择器以提高优先级。可是这样做有个缺点，就是下次你要重新再修改样式时需要添加更高优先级的选择器。另一方面就是代码冗余的问题，盲目地添加选择器只会提高代码的混乱度。为此我重新系统地学习了一下关于各个选择器的权值。下面是各个选择器的权重：</p>
+<blockquote>
+<p>通配选择符的权值 0,0,0,0<br>标签的权值为 0,0,0,1<br>类的权值为 0,0,1,0<br>属性选择的权值为 0,0,1,1 0,0,1,0<br>伪类选择的权值为 0,0,1,0<br>伪对象选择的权值为 0,0,0,1<br>ID的权值为 0,1,0,0<br>!important的权值为最高 1,0,0,0</p>
+</blockquote>
+<p>&emsp;&emsp;了解了各个选择器的权值后，就可以更加清晰地知道自己该用哪些选择器了。这里说一下选择器的使用规则，就是选择器的权值加到一起，权值大的优先。如果权值相同，后定义的优先。所以在使用选择器的时候，应进行适当的计算，避免css的重复定义以造成代码的冗余,还有就是不要一味地添加选择器的数量来来提高优先级。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/11/CSS选择器的权重问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/10/09/浅谈EJS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -671,7 +799,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -684,7 +812,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
