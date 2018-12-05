@@ -248,6 +248,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/08/Vue学习笔记-四/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Akaziki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Akaziki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/08/Vue学习笔记-四/" itemprop="url">Vue学习笔记-四</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T18:20:10+08:00">
+                2017-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>升级vue2.0</p>
+<p>为什么要升级Vue2.0呢？个人觉得以下改变比较吸引人：</p>
+<ul>
+<li>更轻更快；</li>
+<li>加入虚拟DOM；</li>
+<li>更清晰合理的生命周期架构；</li>
+<li>更简洁迷你的API；</li>
+<li>更符合未来技术规范的设计；</li>
+<li>解锁JSX和render函数；</li>
+<li><p>······</p>
+</li>
+<li><p>······</p>
+</li>
+</ul>
+<h2 id="vue-migration-helper"><a href="#vue-migration-helper" class="headerlink" title="vue-migration-helper"></a>vue-migration-helper</h2><p>第一步是使用官方的升级助手<a href="https://github.com/vuejs/vue-migration-helper" target="_blank" rel="external">vue-migration-helper</a>检测项目代码中可能需要升级的地方。我的小项目代码中共检测出 <strong>40</strong> 个地方可能需要修改，具体会在下面介绍。</p>
+<h2 id="render函数"><a href="#render函数" class="headerlink" title="render函数"></a>render函数</h2><p>关于render函数，官方是这样说的：</p>
+<blockquote>
+<p>大多数情况下使用基于 <code>template</code> 构件组件都是推荐的，但是 <code>render()</code>函数可以让你在组件中运用更强大的JS。</p>
+</blockquote>
+<p><code>render()</code> 接收一个叫 <code>createElement</code> 的函数作为形参，它的作用是创建<strong>虚拟DOM节点</strong>。<code>createElement</code>说明如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 返回虚拟DOM对象</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">// &#123;String | Object | Function&#125;</span></div><div class="line">  <span class="comment">// 必选项，HTML节点名，自定义组件或者返回这些的函数</span></div><div class="line">  <span class="string">'div'</span>,</div><div class="line">  <span class="comment">// &#123;Object&#125;</span></div><div class="line">  <span class="comment">// 一个对象，描述了用在template中的属性</span></div><div class="line">  &#123;</div><div class="line">    <span class="comment">// (比如props)</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// &#123;String | Array&#125;</span></div><div class="line">  <span class="comment">// 子节点集合，可以是字符串或者是另一个createElement函数</span></div><div class="line">  [</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'hello world'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      props: &#123;</div><div class="line">        someProp: <span class="string">'foo'</span></div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="string">'bar'</span></div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="createElement第二个形参详解"><a href="#createElement第二个形参详解" class="headerlink" title="createElement第二个形参详解"></a>createElement第二个形参详解</h3><p>上文说了这是个描述template中涉及属性的对象，一般来说我们在template中用到的无非：<code>v-bind</code>，<code>v-on</code>，<code>slot</code>，<code>key</code>，<code>ref</code>和某些原生DOM属性，下面是一个较为完整的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="comment">// Same API as `v-bind:class`</span></div><div class="line">  <span class="string">'class'</span>: &#123;</div><div class="line">    foo: <span class="literal">true</span>,</div><div class="line">    bar: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Same API as `v-bind:style`</span></div><div class="line">  style: &#123;</div><div class="line">    color: <span class="string">'red'</span>,</div><div class="line">    fontSize: <span class="string">'14px'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Normal HTML attributes</span></div><div class="line">  attrs: &#123;</div><div class="line">    id: <span class="string">'foo'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Component props</span></div><div class="line">  props: &#123;</div><div class="line">    myProp: <span class="string">'bar'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// DOM properties</span></div><div class="line">  domProps: &#123;</div><div class="line">    innerHTML: <span class="string">'baz'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 使用v-on绑定的事件处理函数</span></div><div class="line">  on: &#123;</div><div class="line">    click: <span class="keyword">this</span>.clickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 仅用于在自定义组件上绑定原生事件的native描述符</span></div><div class="line">  nativeOn: &#123;</div><div class="line">    click: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 自定义指令</span></div><div class="line">  directives: [</div><div class="line">    &#123;</div><div class="line">      name: <span class="string">'my-custom-directive'</span>, </div><div class="line">      value: <span class="string">'2'</span></div><div class="line">      expression: <span class="string">'1 + 1'</span>,</div><div class="line">      arg: <span class="string">'foo'</span>,</div><div class="line">      modifiers: &#123;</div><div class="line">        bar: <span class="literal">true</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="comment">// The name of a slot if the child of a component</span></div><div class="line">  slot: <span class="string">'name-of-slot'</span></div><div class="line">  <span class="comment">// Other special top-level properties</span></div><div class="line">  key: <span class="string">'myKey'</span>,</div><div class="line">  ref: <span class="string">'myRef'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="在reder中使用JSX"><a href="#在reder中使用JSX" class="headerlink" title="在reder中使用JSX"></a>在reder中使用JSX</h3><p>通过 <strong>Babel plugin</strong> 的支持，现在你可以在vue中使用JSX语法了！（<a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx" target="_blank" rel="external">插件地址</a>）它所做的事是将JSX语法的模板转换为render函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div id=<span class="string">"foo"</span>&gt;&#123;<span class="keyword">this</span>.text&#125;&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">/</span><span class="regexp">/ To the following JavaScript:</span></div><div class="line"><span class="regexp">h('div', &#123;</span></div><div class="line"><span class="regexp">  attrs: &#123;</span></div><div class="line"><span class="regexp">    id: 'foo'</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;, [this.text])</span></div></pre></td></tr></table></figure>
+<p>使用jsx语法编写的render组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> AnchoredHeading <span class="keyword">from</span> <span class="string">'./AnchoredHeading.vue'</span></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  el: <span class="string">'#demo'</span>,</div><div class="line">  render (h) &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;AnchoredHeading level=&#123;<span class="number">1</span>&#125;&gt;</div><div class="line">        &lt;span&gt;Hello&lt;<span class="regexp">/span&gt; world!</span></div><div class="line"><span class="regexp">      &lt;/</span>AnchoredHeading&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="函数化组件"><a href="#函数化组件" class="headerlink" title="函数化组件"></a>函数化组件</h3><p><strong>函数化的组件</strong>意味着：无状态，非实例，内部没有this：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Vue.component(<span class="string">'my-component'</span>, &#123;</div><div class="line">  functional: <span class="literal">true</span>,</div><div class="line">  <span class="comment">// To compensate for the lack of an instance,</span></div><div class="line">  <span class="comment">// we are now provided a 2nd context argument.</span></div><div class="line">  render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement, context</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Props are optional</span></div><div class="line">  props: &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>具体介绍见：<a href="https://vuejs.org/guide/render-function.html#Functional-Components" target="_blank" rel="external">Functional Components</a>。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><strong>生命周期</strong>改动比较大，但是升级起来也很容易，具体见下图，有需要照着改就行，不再多说： <img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt="img"></p>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><p>这部分是比较麻烦的，因为之前有用的 <code>$dispatch</code> 和 <code>$broadcast</code> 都被废弃了，组件 <code>events</code>选项也被废弃了，因此这次不得不重构事件部分的代码，原则和注意点如下：</p>
+<ul>
+<li>父组件向子组件传递数据使用<code>props</code>，子组件中<strong>禁止</strong>修改props属性，同时绑定props不再支持双向绑定；</li>
+<li>子组件向父组件传递事件使用<code>v-on</code>，子组件中使用<code>$emit(&#39;test&#39;)</code>触发事件，父组件使用<code>v-on:test</code>订阅事件。在自定义组件上订阅原生事件需要加<code>.native</code>修饰符；</li>
+<li>兄弟组件或者嵌套比较深的组件之间可以通过新建一个Vue实例作为<strong>event hub</strong>，当然也推荐使用<code>vuex</code>；</li>
+<li>使用<code>$emit</code>触发自定义事件时，事件名称需要以<code>xx-xxx</code>的方式命名；</li>
+</ul>
+<p><em>特别注意：</em> <strong>父组件上不能使用 v-on 订阅其子组件中嵌套组件触发的事件。也就是说 $emit 触发的事件不会像原生事件一样冒泡！</strong></p>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>vue2.0对动画做了非常大的更新，原来的<code>transition</code>属性被彻底废弃，取而代之的是更强大的 <code>&lt;transition&gt;</code>元素，以前如果用到了动画必然是要重写的，而且css的命名规则也变了，css也得重写······</p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>之前是直接使用vue提供的<code>filterBy</code> 方法，但是在2.0中被废弃了，这部分也得使用<strong>计算属性</strong>重构。这里需要说明的是，本应用中用到了两层嵌套的 <code>v-for</code> ，第二层的<code>v-for</code>依赖于第一层<code>v-for</code>给的数据，且每一个列表都需要 <strong>filter</strong>，第一层可以使用计算属性，那么第二层呢？ 答案是用方法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--itemsData是计算属性，itemsFilter是方法--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"items in itemsData"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in itemsFilter(items)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ul>
+<li><code>v-for</code>中废弃了<code>$index</code>，使用时改为主动声明：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"catalog"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(catalog, index) in catalogs"</span> <span class="attr">v-on:click</span>=<span class="string">"updateCatalog(index)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>v-el</code> 和 <code>v-ref</code> 合并为一个 <code>ref</code> 属性，当元素为自定义组件时<code>ref</code>指向组件，否则指向<strong>真实的</strong>DOM元素；</li>
+<li>vue2.0默认输出<code>vue.common.js</code>，common不支持<code>template</code>选项，所以如果你在组件选项中用到了template（通过vue-loader处理过的.vue文件中的template不会有问题）需要<a href="https://github.com/vuejs/vue/wiki/Vue-2.0-RC-Starter-Resources#standalone-vs-runtime-builds" target="_blank" rel="external">在webpack中设置vue的别名</a>；</li>
+<li>随着升级2.0，vue生态的其它插件也有升级情况，webpack配置也有变化，建议更换。（ps：yarn第一次的install的时候也很慢···）</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/08/Vue学习笔记-三/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,7 +506,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dishs = [&#123;</div><div class="line">    catalog: <span class="string">"招牌鲜鱼"</span>,</div><div class="line">    catalogID: <span class="number">1100</span>,</div><div class="line">    dishs: [&#123;</div><div class="line">        dishID: <span class="number">100</span>,</div><div class="line">        dishName: <span class="string">"花鲢"</span>,</div><div class="line">        dishDesc: <span class="string">"约350g，原产地当日直供。本店所有鱼均由省重点养殖企业 龙华渔场 提供。"</span>,</div><div class="line">        dishPrice: <span class="number">25</span>,</div><div class="line">        likeNum: <span class="number">488</span>,</div><div class="line">        imgSrc: <span class="built_in">require</span>(<span class="string">'../img/hualian1.jpg'</span>),</div><div class="line">        isCombo: <span class="literal">false</span>,</div><div class="line">        isPromotion: <span class="literal">true</span>,</div><div class="line">        searchKey: [<span class="string">"招牌推荐"</span>, <span class="string">"鱼类"</span>, <span class="string">"热门"</span>],</div><div class="line">        dishNum: <span class="number">0</span>,</div><div class="line">       imgSrcs: &#123;</div><div class="line">        smallSrcs: [],</div><div class="line">            bigSrcs: []</div><div class="line">       &#125;</div><div class="line">    &#125;, &#123;</div><div class="line">        <span class="comment">// 次分类的下一道菜品</span></div><div class="line">       <span class="comment">// ...</span></div><div class="line">    &#125;]</div><div class="line">&#125;, &#123;</div><div class="line">    <span class="comment">// 下一个分类</span></div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
 <p>在实际中页面渲染可以在客户端或者服务端，在客户端可以通过网络请求获取JSON格式的数据，或者从<strong>本地存储</strong>（localStorage）中读取，服务端渲染则是计算出可用的HTML和相应的CSS，JS直接返回给客户端。</p>
 <h2 id="组件设计"><a href="#组件设计" class="headerlink" title="组件设计"></a>组件设计</h2><p>这个项目是Vue+webpack，所以可以使用<code>vue-html-loader</code>，<code>vue-loader</code>，<code>vue-style-loader</code>来处理<code>.vue</code>文件，将html模板，组件样式和js都写在一个文件里，实现更完美的组件封装，我觉得这种方式相对于react等框架的一个明显优点就是我们可以更好的管理css。 下面是一个<code>.vue</code>文件的大致结构：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;div id=<span class="string">"app"</span>&gt;</div><div class="line">        &lt;menu-header&gt;<span class="xml"><span class="tag">&lt;/<span class="name">menu-header</span>&gt;</span></span></div><div class="line">        &lt;menu-item&gt;&lt;/menu-item&gt;</div><div class="line">        &lt;menu-cart&gt;&lt;/menu-cart&gt;</div><div class="line">        &lt;pic-card&gt;&lt;/pic-card&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">import MenuHeader from './components/MenuHeader'</div><div class="line">import MenuItem from './components/MenuItem.vue'</div><div class="line">import MenuCart from './components/MenuCart.vue'</div><div class="line">import PicCard from './components/PicCard.vue'</div><div class="line">import dishsData from './data/dishs.js'</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">    data: function() &#123;</div><div class="line">        return &#123;</div><div class="line">            filterKey: '',</div><div class="line">            totalNum: 0,</div><div class="line">            totalPri: 0,</div><div class="line">            lockScroll: false,</div><div class="line">            picCardSrcs: '',</div><div class="line">            showPicCard: false,</div><div class="line">            activeIndex: 0,</div><div class="line">            catalogPos: [],</div><div class="line">            orderedDishs: &#123;</div><div class="line">                pos: [],</div><div class="line">                num: []</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;,</div><div class="line">    components: &#123;</div><div class="line">        MenuHeader,</div><div class="line">        MenuItem,</div><div class="line">        MenuCart,</div><div class="line">        PicCard</div><div class="line">    &#125;,</div><div class="line">    created: function() &#123;&#125;,</div><div class="line">    ready: function() &#123;&#125;,</div><div class="line">    methods: &#123;</div><div class="line">        initCatalogPos: function() &#123;&#125;,</div><div class="line">        initOrderedDishs: function() &#123;&#125;,</div><div class="line">        getDishPos: function(id) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    watch: &#123;</div><div class="line">        orderedDishs: function(nv, ov) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    events: &#123;</div><div class="line">        updateCatalog: function(index) &#123;&#125;,</div><div class="line">        updataFilterkey: function(val) &#123;&#125;,</div><div class="line">        addCart: function(id) &#123;&#125;,</div><div class="line">        minusCart: function(id) &#123;&#125;,</div><div class="line">        toggleScroll: function() &#123;&#125;,</div><div class="line">        openPicCard: function(srcs) &#123;&#125;,</div><div class="line">        closePicCard: function() &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;style&gt;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;div id=<span class="string">"app"</span>&gt;</div><div class="line">        &lt;menu-header&gt;&lt;/menu-header&gt;</div><div class="line">        &lt;menu-item&gt;&lt;/menu-item&gt;</div><div class="line">        &lt;menu-cart&gt;&lt;/menu-cart&gt;</div><div class="line">        &lt;pic-card&gt;&lt;/pic-card&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">import MenuHeader from './components/MenuHeader'</div><div class="line">import MenuItem from './components/MenuItem.vue'</div><div class="line">import MenuCart from './components/MenuCart.vue'</div><div class="line">import PicCard from './components/PicCard.vue'</div><div class="line">import dishsData from './data/dishs.js'</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">    data: function() &#123;</div><div class="line">        return &#123;</div><div class="line">            filterKey: '',</div><div class="line">            totalNum: 0,</div><div class="line">            totalPri: 0,</div><div class="line">            lockScroll: false,</div><div class="line">            picCardSrcs: '',</div><div class="line">            showPicCard: false,</div><div class="line">            activeIndex: 0,</div><div class="line">            catalogPos: [],</div><div class="line">            orderedDishs: &#123;</div><div class="line">                pos: [],</div><div class="line">                num: []</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;,</div><div class="line">    components: &#123;</div><div class="line">        MenuHeader,</div><div class="line">        MenuItem,</div><div class="line">        MenuCart,</div><div class="line">        PicCard</div><div class="line">    &#125;,</div><div class="line">    created: function() &#123;&#125;,</div><div class="line">    ready: function() &#123;&#125;,</div><div class="line">    methods: &#123;</div><div class="line">        initCatalogPos: function() &#123;&#125;,</div><div class="line">        initOrderedDishs: function() &#123;&#125;,</div><div class="line">        getDishPos: function(id) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    watch: &#123;</div><div class="line">        orderedDishs: function(nv, ov) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    events: &#123;</div><div class="line">        updateCatalog: function(index) &#123;&#125;,</div><div class="line">        updataFilterkey: function(val) &#123;&#125;,</div><div class="line">        addCart: function(id) &#123;&#125;,</div><div class="line">        minusCart: function(id) &#123;&#125;,</div><div class="line">        toggleScroll: function() &#123;&#125;,</div><div class="line">        openPicCard: function(srcs) &#123;&#125;,</div><div class="line">        closePicCard: function() &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;style&gt;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
 <ul>
 <li><code>.vue</code>文件默认生成一个以文件名命名的组件，生成该组件无需调用<code>Vue.component()</code>，组件选项以对象形式输出（export {}）；</li>
 <li>在<code>.vue</code>文件中也可以引入Vue（<code>import Vue from &#39;vue&#39;</code>），然后按照常规的方式生成组件：</li>
@@ -349,7 +519,7 @@
 </ul>
 <h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><p>在这个项目中主要采用了两种通信方式：</p>
 <h3 id="PROPS"><a href="#PROPS" class="headerlink" title="PROPS"></a>PROPS</h3><p>通过<code>props</code>传递数据，这种方式符合Vue<strong>数据驱动</strong>的理念，但是实现起来比较麻烦：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 父组件中嵌套子组件 menu-header，使用v-bind动态的传递父组件中的数据</span></div><div class="line">&lt;div id=<span class="string">"app"</span> v-bind:<span class="class"><span class="keyword">class</span></span>=<span class="string">"&#123;showCart:totalNum&#125;"</span>&gt;</div><div class="line">        &lt;menu-header v-bind:active-index=<span class="string">"activeIndex"</span> v-bind:ordered-tips=<span class="string">"orderedDishs.num"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">menu-header</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">// 子组件中声明props字段，并同样使用v-bind传递给嵌套的子组件</span></div><div class="line">&lt;template&gt;</div><div class="line">    &lt;menu-contents v-bind:active-catalog=<span class="string">"activeIndex"</span> v-bind:number-tips=<span class="string">"orderedTips"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">menu-contents</span>&gt;</span></span></div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    props: [<span class="string">'activeIndex'</span>, <span class="string">'orderedTips'</span>]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在子子组件中使用根组件传递过来的数据</span></div><div class="line">&lt;span <span class="class"><span class="keyword">class</span></span>=<span class="string">"num"</span> v-show=<span class="string">"numberTips[$index]"</span>&gt;&#123;&#123;numberTips[$index]&#125;&#125;&lt;<span class="regexp">/span&gt;</span></div><div class="line"><span class="regexp">props: ['activeCatalog', 'numberTips']</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 父组件中嵌套子组件 menu-header，使用v-bind动态的传递父组件中的数据</span></div><div class="line">&lt;div id=<span class="string">"app"</span> v-bind:<span class="class"><span class="keyword">class</span></span>=<span class="string">"&#123;showCart:totalNum&#125;"</span>&gt;</div><div class="line">        &lt;menu-header v-bind:active-index=<span class="string">"activeIndex"</span> v-bind:ordered-tips=<span class="string">"orderedDishs.num"</span>&gt;&lt;/menu-header&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line"><span class="comment">// 子组件中声明props字段，并同样使用v-bind传递给嵌套的子组件</span></div><div class="line">&lt;template&gt;</div><div class="line">    &lt;menu-contents v-bind:active-catalog=<span class="string">"activeIndex"</span> v-bind:number-tips=<span class="string">"orderedTips"</span>&gt;&lt;/menu-contents&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    props: [<span class="string">'activeIndex'</span>, <span class="string">'orderedTips'</span>]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在子子组件中使用根组件传递过来的数据</span></div><div class="line">&lt;span <span class="class"><span class="keyword">class</span></span>=<span class="string">"num"</span> v-show=<span class="string">"numberTips[$index]"</span>&gt;&#123;&#123;numberTips[$index]&#125;&#125;&lt;<span class="regexp">/span&gt;</span></div><div class="line"><span class="regexp">props: ['activeCatalog', 'numberTips']</span></div></pre></td></tr></table></figure>
 <ul>
 <li>可以看到通过props传递数据需要在中间组件设置<strong>过渡</strong>字段，看起来略显麻烦，所以我们应该拆分组件时尽量避免深层次的嵌套，这也是最开始我说这个项目组件划分并不完美的原因；</li>
 </ul>
@@ -498,7 +668,7 @@
 <h3 id="注册语法糖"><a href="#注册语法糖" class="headerlink" title="注册语法糖"></a>注册语法糖</h3><p><code>Vue.component()</code> 注册函数的第二个选项可以直接传入选项对象，Vue会自动调用 <code>Vue.extend()</code> 函数创建组件，使用方式可简化为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 在一个步骤中扩展与注册</div><div class="line">Vue.component(&apos;my-component&apos;, &#123;</div><div class="line">  template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 局部注册也可以这么做</div><div class="line">var Parent = Vue.extend(&#123;</div><div class="line">  components: &#123;</div><div class="line">    &apos;my-component&apos;: &#123;</div><div class="line">     template: &apos;&lt;div&gt;A custom component!&lt;/div&gt;&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/11/04/Vue学习笔记-二/#espandi" rel="contents">
+            <a class="btn" href="/2017/11/04/Vue学习笔记-二/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -628,7 +798,7 @@
 <p>容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做<code>main start</code>，结束位置叫做<code>main end</code>；交叉轴的开始位置叫做<code>cross start</code>，结束位置叫做<code>cross end</code>。项目默认沿主轴排列。单个项目占据的主轴空间叫做<code>main size</code>，占据的交叉轴空间叫做<code>cross size</code>。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/11/02/Flex布局笔记/#espandi" rel="contents">
+            <a class="btn" href="/2017/11/02/Flex布局笔记/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -786,133 +956,11 @@
 <p><img src="../images/Vue学习笔记1/vue-component.png" alt="vue-component"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/30/Vue学习笔记-一/#espandi" rel="contents">
+            <a class="btn" href="/2017/10/30/Vue学习笔记-一/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/10/30/CSS样式大全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Akaziki">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Akaziki">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/30/CSS样式大全/" itemprop="url">CSS样式大全</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T20:22:42+08:00">
-                2017-10-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本文可以作为一个平时使用的css参考手册，文章来源于网上，具体见文章末尾。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div></pre></td><td class="code"><pre><div class="line">字体属性：(font)</div><div class="line"></div><div class="line">大小 &#123;font-size: x-large;&#125;</div><div class="line">(特大) xx-small;(极小) 一般中文用不到，只要用数值就可以，单位：PX、PD</div><div class="line"></div><div class="line">样式 &#123;font-style: oblique;&#125;</div><div class="line">(偏斜体) italic;(斜体) normal;(正常)</div><div class="line"></div><div class="line">行高 &#123;line-height: normal;&#125;</div><div class="line">(正常) 单位：PX、PD、EM</div><div class="line"></div><div class="line">粗细 &#123;font-weight: bold;&#125;</div><div class="line">(粗体) lighter;(细体) normal;(正常)</div><div class="line"></div><div class="line">变体 &#123;font-variant: small-caps;&#125;</div><div class="line">(小型大写字母) normal;(正常)</div><div class="line"></div><div class="line">大小写 &#123;text-transform: capitalize;&#125;</div><div class="line">(首字母大写) uppercase;(大写) lowercase;(小写) none;(无)</div><div class="line"></div><div class="line">修饰 &#123;text-decoration: underline;&#125;</div><div class="line">(下划线) overline;(上划线) line-through;(删除线) blink;(闪烁)</div><div class="line"></div><div class="line">常用字体： (font-family)</div><div class="line">&quot;Courier New&quot;, Courier, monospace, &quot;Times New Roman&quot;,</div><div class="line">Times, serif, Arial, Helvetica, sans-serif, Verdana</div><div class="line"></div><div class="line">背景属性： (background)</div><div class="line"></div><div class="line">色彩 &#123;background-color: #FFFFFF;&#125;</div><div class="line"></div><div class="line">图片 &#123;background-image: url();&#125;</div><div class="line"></div><div class="line">重复 &#123;background-repeat: no-repeat;&#125;</div><div class="line"></div><div class="line">滚动 &#123;background-attachment: fixed;&#125;(固定) scroll;(滚动)</div><div class="line"></div><div class="line">位置 &#123;background-position: left;&#125;(水平) top(垂直);</div><div class="line"></div><div class="line">简写方法 &#123;background:#000 url(..) repeat fixed left top;&#125;</div><div class="line">/*简写·这个在阅读代码中经常出现，要认真的研究*/</div><div class="line"></div><div class="line">区块属性： (Block) /*这个属性第一次认识，要多多研究*/</div><div class="line"></div><div class="line">字间距 &#123;letter-spacing: normal;&#125; 数值 /*这个属性似乎有用，多实践下*/</div><div class="line"></div><div class="line">对齐 &#123;text-align: justify;&#125;</div><div class="line">(两端对齐) left;(左对齐) rightright;(右对齐) center;(居中)</div><div class="line"></div><div class="line">缩进 &#123;text-indent: 数值px;&#125;</div><div class="line"></div><div class="line">垂直对齐 &#123;vertical-align: baselinebaseline;&#125;</div><div class="line">(基线) sub;(下标) super;(下标) top; text-top; middle; bottombottom; text-bottom;</div><div class="line"></div><div class="line">词间距word-spacing: normal; 数值</div><div class="line"></div><div class="line">空格whitewhite-space: pre;(保留) nowrap;(不换行)</div><div class="line"></div><div class="line">显示 &#123;display:block;&#125;</div><div class="line">(块) inline;(内嵌) list-item;(列表项) run-in;(追加部分) compact;(紧凑)</div><div class="line">marker;(标记)table; inline-table; table-raw-group; table-header-group;</div><div class="line">table-footer-group;table-raw; table-column-group; table-column;</div><div class="line">table-cell; table-caption;(表格标题) /*display 属性的了解很模糊*/</div><div class="line"></div><div class="line">方框属性： (Box)</div><div class="line">width:; height:; float:; clear:both; margin:; padding:; 顺序：上右下左</div><div class="line"></div><div class="line">边框属性： (Border)</div><div class="line">border-style: dotted;(点线) dashed;(虚线) solid; double;(双线)</div><div class="line">groove;(槽线) ridge;(脊状) inset;(凹陷) outset;</div><div class="line"></div><div class="line">border-width:; 边框宽度</div><div class="line"></div><div class="line">border-color:#;</div><div class="line"></div><div class="line">简写方法border：width style color; /*简写*/</div><div class="line"></div><div class="line">列表属性： (List-style)</div><div class="line"></div><div class="line">类型list-style-type: disc;(圆点) circle;(圆圈) square;(方块) decimal;(数字)</div><div class="line">lower-roman;(小罗码数字) upper-roman; lower-alpha; upper-alpha;</div><div class="line"></div><div class="line">位置list-style-position: outside;(外) inside;</div><div class="line"></div><div class="line">图像list-style-image: url(..);</div><div class="line"></div><div class="line">定位属性： (Position)</div><div class="line">Position: absolute; relative; static;</div><div class="line">visibility: inherit; visible; hidden;</div><div class="line">overflow: visible; hidden; scroll; auto;</div><div class="line"></div><div class="line">clip: rect(12px,auto,12px,auto) (裁切)</div><div class="line"></div><div class="line">css属性代码大全</div><div class="line"></div><div class="line">一 CSS文字属性：</div><div class="line">color : #999999; /*文字颜色*/</div><div class="line">font-family : 宋体,sans-serif; /*文字字体*/</div><div class="line">font-size : 9pt; /*文字大小*/</div><div class="line">font-style:itelic; /*文字斜体*/</div><div class="line">font-variant:small-caps; /*小字体*/</div><div class="line">letter-spacing : 1pt; /*字间距离*/</div><div class="line">line-height : 200%; /*设置行高*/</div><div class="line">font-weight:bold; /*文字粗体*/</div><div class="line">vertical-align:sub; /*下标字*/</div><div class="line">vertical-align:super; /*上标字*/</div><div class="line">text-decoration:line-through; /*加删除线*/</div><div class="line">text-decoration: overline; /*加顶线*/</div><div class="line">text-decoration:underline; /*加下划线*/</div><div class="line">text-decoration:none; /*删除链接下划线*/</div><div class="line">text-transform : capitalize; /*首字大写*/</div><div class="line">text-transform : uppercase; /*英文大写*/</div><div class="line">text-transform : lowercase; /*英文小写*/</div><div class="line">text-align:rightright; /*文字右对齐*/</div><div class="line">text-align:left; /*文字左对齐*/</div><div class="line">text-align:center; /*文字居中对齐*/</div><div class="line">text-align:justify; /*文字分散对齐*/</div><div class="line">vertical-align属性</div><div class="line">vertical-align:top; /*垂直向上对齐*/</div><div class="line">vertical-align:bottombottom; /*垂直向下对齐*/</div><div class="line">vertical-align:middle; /*垂直居中对齐*/</div><div class="line">vertical-align:text-top; /*文字垂直向上对齐*/</div><div class="line">vertical-align:text-bottom; /*文字垂直向下对齐*/</div><div class="line"></div><div class="line">二、CSS边框空白</div><div class="line">padding-top:10px; /*上边框留空白*/</div><div class="line">padding-right:10px; /*右边框留空白*/</div><div class="line">padding-bottom:10px; /*下边框留空白*/</div><div class="line">padding-left:10px; /*左边框留空白</div><div class="line"></div><div class="line">三、CSS符号属性：</div><div class="line">list-style-type:none; /*不编号*/</div><div class="line">list-style-type:decimal; /*阿拉伯数字*/</div><div class="line">list-style-type:lower-roman; /*小写罗马数字*/</div><div class="line">list-style-type:upper-roman; /*大写罗马数字*/</div><div class="line">list-style-type:lower-alpha; /*小写英文字母*/</div><div class="line">list-style-type:upper-alpha; /*大写英文字母*/</div><div class="line">list-style-type:disc; /*实心圆形符号*/</div><div class="line">list-style-type:circle; /*空心圆形符号*/</div><div class="line">list-style-type:square; /*实心方形符号*/</div><div class="line">list-style-image:url(/dot.gif); /*图片式符号*/</div><div class="line">list-style-position: outside; /*凸排*/</div><div class="line">list-style-position:inside; /*缩进*/</div><div class="line"></div><div class="line">四、CSS背景样式：</div><div class="line">background-color:#F5E2EC; /*背景颜色*/</div><div class="line">background:transparent; /*透视背景*/</div><div class="line">background-image : url(/image/bg.gif); /*背景图片*/</div><div class="line">background-attachment : fixed; /*浮水印固定背景*/</div><div class="line">background-repeat : repeat; /*重复排列-网页默认*/</div><div class="line">background-repeat : no-repeat; /*不重复排列*/</div><div class="line">background-repeat : repeat-x; /*在x轴重复排列*/</div><div class="line">background-repeat : repeat-y; /*在y轴重复排列*/</div><div class="line"></div><div class="line">指定背景位置</div><div class="line">background-position : 90% 90%; /*背景图片x与y轴的位置*/</div><div class="line">background-position : top; /*向上对齐*/</div><div class="line">background-position : buttom; /*向下对齐*/</div><div class="line">background-position : left; /*向左对齐*/</div><div class="line">background-position : rightright; /*向右对齐*/</div><div class="line">background-position : center; /*居中对齐*/</div><div class="line"></div><div class="line">五、CSS连接属性：</div><div class="line">a /*所有超链接*/</div><div class="line">a:link /*超链接文字格式*/</div><div class="line">a:visited /*浏览过的链接文字格式*/</div><div class="line">a:active /*按下链接的格式*/</div><div class="line">a:hover /*鼠标转到链接*/</div><div class="line">鼠标光标样式：</div><div class="line">链接手指 CURSOR: hand</div><div class="line">十字体 cursor:crosshair</div><div class="line">箭头朝下 cursor:s-resize</div><div class="line">十字箭头 cursor:move</div><div class="line">箭头朝右 cursor:move</div><div class="line">加一问号 cursor:help</div><div class="line">箭头朝左 cursor:w-resize</div><div class="line">箭头朝上 cursor:n-resize</div><div class="line">箭头朝右上 cursor:ne-resize</div><div class="line">箭头朝左上 cursor:nw-resize</div><div class="line">文字I型 cursor:text</div><div class="line">箭头斜右下 cursor:se-resize</div><div class="line">箭头斜左下 cursor:sw-resize</div><div class="line">漏斗 cursor:wait</div><div class="line">光标图案(IE6) p &#123;cursor:url(&quot;光标文件名.cur&quot;),text;&#125;</div><div class="line"></div><div class="line">六、CSS框线一览表：</div><div class="line">border-top : 1px solid #6699cc; /*上框线*/</div><div class="line">border-bottom : 1px solid #6699cc; /*下框线*/</div><div class="line">border-left : 1px solid #6699cc; /*左框线*/</div><div class="line">border-right : 1px solid #6699cc; /*右框线*/</div><div class="line">以上是建议书写方式,但也可以使用常规的方式 如下:</div><div class="line">border-top-color : #369 /*设置上框线top颜色*/</div><div class="line">border-top-width :1px /*设置上框线top宽度*/</div><div class="line">border-top-style : solid/*设置上框线top样式*/</div><div class="line">其他框线样式</div><div class="line">solid /*实线框*/</div><div class="line">dotted /*虚线框*/</div><div class="line">double /*双线框*/</div><div class="line">groove /*立体内凸框*/</div><div class="line">ridge /*立体浮雕框*/</div><div class="line">inset /*凹框*/</div><div class="line">outset /*凸框*/</div><div class="line"></div><div class="line">七、CSS表单运用：</div><div class="line">文字方块</div><div class="line">按钮</div><div class="line">复选框</div><div class="line">选择钮</div><div class="line">多行文字方块</div><div class="line">下拉式菜单 选项1选项2</div><div class="line"></div><div class="line">八、CSS边界样式：</div><div class="line">margin-top:10px; /*上边界*/</div><div class="line">margin-right:10px; /*右边界值*/</div><div class="line">margin-bottom:10px; /*下边界值*/</div><div class="line">margin-left:10px; /*左边界值*/</div><div class="line"></div><div class="line">CSS 属性： 字体样式(Font Style)</div><div class="line">序号 中文说明 标记语法</div><div class="line">1 字体样式 &#123;font:font-style font-variant font-weight font-size font-family&#125;</div><div class="line">2 字体类型 &#123;font-family:&quot;字体1&quot;,&quot;字体2&quot;,&quot;字体3&quot;,...&#125;</div><div class="line">3 字体大小 &#123;font-size:数值|inherit| medium| large| </div><div class="line">larger| x-large| xx-large| small| smaller| x-small| xx-small&#125;</div><div class="line">4 字体风格 &#123;font-style:inherit|italic|normal|oblique&#125;</div><div class="line">5 字体粗细 &#123;font-weight:100-900|bold|bolder|lighter|normal;&#125;</div><div class="line">6 字体颜色 &#123;color:数值;&#125;</div><div class="line">7 阴影颜色 &#123;text-shadow:16位色值&#125;</div><div class="line">8 字体行高 &#123;line-height:数值|inherit|normal;&#125;</div><div class="line">9 字 间 距 &#123;letter-spacing:数值|inherit|normal&#125;</div><div class="line">10 单词间距 &#123;word-spacing:数值|inherit|normal&#125;</div><div class="line">11 字体变形 &#123;font-variant:inherit|normal|small-cps &#125;</div><div class="line">12 英文转换 &#123;text-transform:inherit|none|capitalize|uppercase|lowercase&#125;</div><div class="line">13 字体变形 &#123;font-size-adjust:inherit|none&#125;</div><div class="line">14 字体 &#123;font-stretch:condensed|expanded|extra-condensed|</div><div class="line">extra-expanded|inherit|narrower|normal| semi-condensed|</div><div class="line">semi-expanded|ultra-condensed|ultra-expanded|wider&#125;</div><div class="line">文本样式(Text Style)</div><div class="line">序号 中文说明 标记语法</div><div class="line">1 行 间 距 &#123;line-height:数值|inherit|normal;&#125;</div><div class="line">2 文本修饰 &#123;text-decoration:inherit|none|underline|overline|line-through|blink&#125;</div><div class="line">3 段首空格 &#123;text-indent:数值|inherit&#125;</div><div class="line">4 水平对齐 &#123;text-align:left|rightright|center|justify&#125;</div><div class="line">5 垂直对齐 &#123;vertical-align:inherit|top|bottombottom|text-top|</div><div class="line">text-bottom|baselinebaseline|middle|sub|super&#125;</div><div class="line">6 书写方式 &#123;writing-mode:lr-tb|tb-rl&#125;</div><div class="line">背景样式</div><div class="line">序号 中文说明 标记语法</div><div class="line">1 背景颜色 &#123;background-color:数值&#125;</div><div class="line">2 背景图片 &#123;background-image: url(URL)|none&#125;</div><div class="line">3 背景重复 &#123;background-repeat:inherit|no-repeat|repeat|repeat-x|repeat-y&#125;</div><div class="line">4 背景固定 &#123;background-attachment:fixed|scroll&#125;</div><div class="line">5 背景定位 &#123;background-position:数值|top|bottombottom|left|rightright|center&#125;</div><div class="line">6 背影样式 &#123;background:背景颜色|背景图象|背景重复|背景附件|背景位置&#125;</div><div class="line">框架样式(Box Style)</div><div class="line">序号 中文说明 标记语法</div><div class="line">1 边界留白 &#123;margin:margin-top margin-right margin-bottom margin-left&#125;</div><div class="line">2 补　　白 &#123;padding:padding-top padding-right padding-bottom padding-left&#125;</div><div class="line">3 边框宽度 &#123;border-width:border-top-width border-right-width </div><div class="line">border-bottom-width border-left-width&#125;</div><div class="line">宽度值： thin|medium|thick|数值</div><div class="line">4 边框颜色 &#123;border-color:数值 数值 数值 数值&#125;　　</div><div class="line">数值：分别代表top、rightright、bottombottom、left颜色值</div><div class="line">5 边框风格 &#123;border-style:none|hidden|inherit|dashed|solid</div><div class="line">|double|inset|outset|ridge|groove&#125;</div><div class="line">6 边　　框 &#123;border:border-width border-style color&#125;</div><div class="line">上 边 框 &#123;border-top:border-top-width border-style color&#125;</div><div class="line">右 边 框 &#123;border-right:border-right-width border-style color&#125;</div><div class="line">下 边 框 &#123;border-bottom:border-bottom-width border-style color&#125;</div><div class="line">左 边 框 &#123;border-left:border-left-width border-style color&#125;</div><div class="line">7 宽　　度 &#123;width:长度|百分比| auto&#125;</div><div class="line">8 高　　度 &#123;height:数值|auto&#125;</div><div class="line">9 漂　　浮 &#123;float:left|rightright|none&#125;</div><div class="line">10 清　　除 &#123;clear:none|left|rightright|both&#125;</div><div class="line">分类列表</div><div class="line">序号 中文说明 标记语法</div><div class="line">1 控制显示 &#123;display:none|block|inline|list-item&#125;</div><div class="line">2 控制空白 &#123;whitewhite-space:normal|pre|nowarp&#125;</div><div class="line">3 符号列表 &#123;list-style-type:disc|circle|square|decimal|lower-roman|</div><div class="line">upper-roman|lower-alpha|upper-alpha|none&#125;</div><div class="line">4 图形列表 &#123;list-style-image:URL&#125;</div><div class="line">5 位置列表 &#123;list-style-position:inside|outside&#125;</div><div class="line">6 目录列表 &#123;list-style:目录样式类型|目录样式位置|url&#125;</div><div class="line">7 鼠标形状 &#123;cursor:hand|crosshair|text|wait|move|help|e-resize|</div><div class="line">nw-resize|w-resize|s-resize|se-resize|sw-resize&#125;</div></pre></td></tr></table></figure>
-<p>文章来源：<a href="https://150643.com/442.html" target="_blank" rel="external">https://150643.com/442.html</a></p>
-
-          
         
       
     </div>
@@ -996,7 +1044,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1009,7 +1057,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
