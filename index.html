@@ -1047,7 +1047,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/15/前端知识点/">
+    <link itemprop="mainEntityOfPage" href="http://akaziki.github.io/2017/11/08/Vue学习笔记-四/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Akaziki">
@@ -1066,7 +1066,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/15/前端知识点/" itemprop="url">前端知识汇总</a></h1>
+                <a class="post-title-link" href="/2017/11/08/Vue学习笔记-四/" itemprop="url">Vue学习笔记-四</a></h1>
         
 
         <div class="post-meta">
@@ -1078,8 +1078,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T15:31:19+08:00">
-                2017-11-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T18:20:10+08:00">
+                2017-11-08
               </time>
             
 
@@ -1117,64 +1117,60 @@
 
       
         
-          <h2 id="HTML-Hypertext-Markup-Language"><a href="#HTML-Hypertext-Markup-Language" class="headerlink" title="HTML(Hypertext Markup Language)"></a>HTML(Hypertext Markup Language)</h2><h3 id="lt-DOCTYPE-gt-的作用"><a href="#lt-DOCTYPE-gt-的作用" class="headerlink" title="&lt;!DOCTYPE&gt;的作用"></a>&lt;!DOCTYPE&gt;的作用</h3><blockquote>
-<p>指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令 </p>
-</blockquote>
-<h3 id="HTML5新特性，语义化"><a href="#HTML5新特性，语义化" class="headerlink" title="HTML5新特性，语义化"></a>HTML5新特性，语义化</h3><blockquote>
+          
+            <p>升级vue2.0</p>
+<p>为什么要升级Vue2.0呢？个人觉得以下改变比较吸引人：</p>
 <ul>
-<li>文件类型声明（&lt;!DOCTYPE&gt;）仅有一型：&lt;!DOCTYPE HTML&gt;。</li>
+<li>更轻更快；</li>
+<li>加入虚拟DOM；</li>
+<li>更清晰合理的生命周期架构；</li>
+<li>更简洁迷你的API；</li>
+<li>更符合未来技术规范的设计；</li>
+<li>解锁JSX和render函数；</li>
+<li><p>······</p>
+</li>
+<li><p>······</p>
+</li>
 </ul>
+<h2 id="vue-migration-helper"><a href="#vue-migration-helper" class="headerlink" title="vue-migration-helper"></a>vue-migration-helper</h2><p>第一步是使用官方的升级助手<a href="https://github.com/vuejs/vue-migration-helper" target="_blank" rel="external">vue-migration-helper</a>检测项目代码中可能需要升级的地方。我的小项目代码中共检测出 <strong>40</strong> 个地方可能需要修改，具体会在下面介绍。</p>
+<h2 id="render函数"><a href="#render函数" class="headerlink" title="render函数"></a>render函数</h2><p>关于render函数，官方是这样说的：</p>
+<blockquote>
+<p>大多数情况下使用基于 <code>template</code> 构件组件都是推荐的，但是 <code>render()</code>函数可以让你在组件中运用更强大的JS。</p>
 </blockquote>
+<p><code>render()</code> 接收一个叫 <code>createElement</code> 的函数作为形参，它的作用是创建<strong>虚拟DOM节点</strong>。<code>createElement</code>说明如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 返回虚拟DOM对象</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">// &#123;String | Object | Function&#125;</span></div><div class="line">  <span class="comment">// 必选项，HTML节点名，自定义组件或者返回这些的函数</span></div><div class="line">  <span class="string">'div'</span>,</div><div class="line">  <span class="comment">// &#123;Object&#125;</span></div><div class="line">  <span class="comment">// 一个对象，描述了用在template中的属性</span></div><div class="line">  &#123;</div><div class="line">    <span class="comment">// (比如props)</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// &#123;String | Array&#125;</span></div><div class="line">  <span class="comment">// 子节点集合，可以是字符串或者是另一个createElement函数</span></div><div class="line">  [</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'hello world'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      props: &#123;</div><div class="line">        someProp: <span class="string">'foo'</span></div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="string">'bar'</span></div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="createElement第二个形参详解"><a href="#createElement第二个形参详解" class="headerlink" title="createElement第二个形参详解"></a>createElement第二个形参详解</h3><p>上文说了这是个描述template中涉及属性的对象，一般来说我们在template中用到的无非：<code>v-bind</code>，<code>v-on</code>，<code>slot</code>，<code>key</code>，<code>ref</code>和某些原生DOM属性，下面是一个较为完整的示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="comment">// Same API as `v-bind:class`</span></div><div class="line">  <span class="string">'class'</span>: &#123;</div><div class="line">    foo: <span class="literal">true</span>,</div><div class="line">    bar: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Same API as `v-bind:style`</span></div><div class="line">  style: &#123;</div><div class="line">    color: <span class="string">'red'</span>,</div><div class="line">    fontSize: <span class="string">'14px'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Normal HTML attributes</span></div><div class="line">  attrs: &#123;</div><div class="line">    id: <span class="string">'foo'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Component props</span></div><div class="line">  props: &#123;</div><div class="line">    myProp: <span class="string">'bar'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// DOM properties</span></div><div class="line">  domProps: &#123;</div><div class="line">    innerHTML: <span class="string">'baz'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 使用v-on绑定的事件处理函数</span></div><div class="line">  on: &#123;</div><div class="line">    click: <span class="keyword">this</span>.clickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 仅用于在自定义组件上绑定原生事件的native描述符</span></div><div class="line">  nativeOn: &#123;</div><div class="line">    click: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 自定义指令</span></div><div class="line">  directives: [</div><div class="line">    &#123;</div><div class="line">      name: <span class="string">'my-custom-directive'</span>, </div><div class="line">      value: <span class="string">'2'</span></div><div class="line">      expression: <span class="string">'1 + 1'</span>,</div><div class="line">      arg: <span class="string">'foo'</span>,</div><div class="line">      modifiers: &#123;</div><div class="line">        bar: <span class="literal">true</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="comment">// The name of a slot if the child of a component</span></div><div class="line">  slot: <span class="string">'name-of-slot'</span></div><div class="line">  <span class="comment">// Other special top-level properties</span></div><div class="line">  key: <span class="string">'myKey'</span>,</div><div class="line">  ref: <span class="string">'myRef'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="在reder中使用JSX"><a href="#在reder中使用JSX" class="headerlink" title="在reder中使用JSX"></a>在reder中使用JSX</h3><p>通过 <strong>Babel plugin</strong> 的支持，现在你可以在vue中使用JSX语法了！（<a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx" target="_blank" rel="external">插件地址</a>）它所做的事是将JSX语法的模板转换为render函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div id=<span class="string">"foo"</span>&gt;&#123;<span class="keyword">this</span>.text&#125;&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">/</span><span class="regexp">/ To the following JavaScript:</span></div><div class="line"><span class="regexp">h('div', &#123;</span></div><div class="line"><span class="regexp">  attrs: &#123;</span></div><div class="line"><span class="regexp">    id: 'foo'</span></div><div class="line"><span class="regexp">  &#125;</span></div><div class="line"><span class="regexp">&#125;, [this.text])</span></div></pre></td></tr></table></figure>
+<p>使用jsx语法编写的render组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> AnchoredHeading <span class="keyword">from</span> <span class="string">'./AnchoredHeading.vue'</span></div><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">  el: <span class="string">'#demo'</span>,</div><div class="line">  render (h) &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;AnchoredHeading level=&#123;<span class="number">1</span>&#125;&gt;</div><div class="line">        &lt;span&gt;Hello&lt;<span class="regexp">/span&gt; world!</span></div><div class="line"><span class="regexp">      &lt;/</span>AnchoredHeading&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="函数化组件"><a href="#函数化组件" class="headerlink" title="函数化组件"></a>函数化组件</h3><p><strong>函数化的组件</strong>意味着：无状态，非实例，内部没有this：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Vue.component(<span class="string">'my-component'</span>, &#123;</div><div class="line">  functional: <span class="literal">true</span>,</div><div class="line">  <span class="comment">// To compensate for the lack of an instance,</span></div><div class="line">  <span class="comment">// we are now provided a 2nd context argument.</span></div><div class="line">  render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement, context</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Props are optional</span></div><div class="line">  props: &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>具体介绍见：<a href="https://vuejs.org/guide/render-function.html#Functional-Components" target="_blank" rel="external">Functional Components</a>。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><strong>生命周期</strong>改动比较大，但是升级起来也很容易，具体见下图，有需要照着改就行，不再多说： <img src="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png" alt="img"></p>
+<h2 id="组件通信"><a href="#组件通信" class="headerlink" title="组件通信"></a>组件通信</h2><p>这部分是比较麻烦的，因为之前有用的 <code>$dispatch</code> 和 <code>$broadcast</code> 都被废弃了，组件 <code>events</code>选项也被废弃了，因此这次不得不重构事件部分的代码，原则和注意点如下：</p>
 <ul>
-<li>新的解析顺序：不再基于SGML。</li>
-<li>新的元素：section, video, progress, nav, meter, time, aside, canvas, command, datalist, details, embed, figcaption, figure, footer, header, hgroup, keygen, mark, output, rp, rt, ruby, source, summary, wbr。</li>
-<li>input元素的新类型：date, email, url等等。</li>
-<li>新的属性：ping（用于a与area）, charset（用于meta）, async（用于script）。</li>
-<li>全域属性：id, tabindex, repeat。</li>
-<li>新的全域属性：contenteditable, contextmenu, draggable, dropzone, hidden, spellcheck。</li>
+<li>父组件向子组件传递数据使用<code>props</code>，子组件中<strong>禁止</strong>修改props属性，同时绑定props不再支持双向绑定；</li>
+<li>子组件向父组件传递事件使用<code>v-on</code>，子组件中使用<code>$emit(&#39;test&#39;)</code>触发事件，父组件使用<code>v-on:test</code>订阅事件。在自定义组件上订阅原生事件需要加<code>.native</code>修饰符；</li>
+<li>兄弟组件或者嵌套比较深的组件之间可以通过新建一个Vue实例作为<strong>event hub</strong>，当然也推荐使用<code>vuex</code>；</li>
+<li>使用<code>$emit</code>触发自定义事件时，事件名称需要以<code>xx-xxx</code>的方式命名；</li>
 </ul>
-<h3 id="浏览器的-和怪异模式"><a href="#浏览器的-和怪异模式" class="headerlink" title="浏览器的 和怪异模式"></a>浏览器的 和怪异模式</h3><blockquote>
-<p>先说一下在什么情况下，用那种模式：</p>
-</blockquote>
+<p><em>特别注意：</em> <strong>父组件上不能使用 v-on 订阅其子组件中嵌套组件触发的事件。也就是说 $emit 触发的事件不会像原生事件一样冒泡！</strong></p>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>vue2.0对动画做了非常大的更新，原来的<code>transition</code>属性被彻底废弃，取而代之的是更强大的 <code>&lt;transition&gt;</code>元素，以前如果用到了动画必然是要重写的，而且css的命名规则也变了，css也得重写······</p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>之前是直接使用vue提供的<code>filterBy</code> 方法，但是在2.0中被废弃了，这部分也得使用<strong>计算属性</strong>重构。这里需要说明的是，本应用中用到了两层嵌套的 <code>v-for</code> ，第二层的<code>v-for</code>依赖于第一层<code>v-for</code>给的数据，且每一个列表都需要 <strong>filter</strong>，第一层可以使用计算属性，那么第二层呢？ 答案是用方法：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--itemsData是计算属性，itemsFilter是方法--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"items in itemsData"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in itemsFilter(items)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><ul>
+<li><code>v-for</code>中废弃了<code>$index</code>，使用时改为主动声明：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"catalog"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(catalog, index) in catalogs"</span> <span class="attr">v-on:click</span>=<span class="string">"updateCatalog(index)"</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
 <ul>
-<li>标准模式：在现有有doctype声明的网页，绝大多数是采用strict mode进行解析的。</li>
-<li>怪异模式：浏览器对没有进行doctype声明的网页进行怪异模式解析。<br><strong>两者的区别</strong>:<a href="http://htmljs.b0.upaiyun.com/uploads/1447847078679-d13a9b1cadb6c5eb881c73c015943cb0.png">http://htmljs.b0.upaiyun.com/uploads/1447847078679-d13a9b1cadb6c5eb881c73c015943cb0.png</a></li>
+<li><code>v-el</code> 和 <code>v-ref</code> 合并为一个 <code>ref</code> 属性，当元素为自定义组件时<code>ref</code>指向组件，否则指向<strong>真实的</strong>DOM元素；</li>
+<li>vue2.0默认输出<code>vue.common.js</code>，common不支持<code>template</code>选项，所以如果你在组件选项中用到了template（通过vue-loader处理过的.vue文件中的template不会有问题）需要<a href="https://github.com/vuejs/vue/wiki/Vue-2.0-RC-Starter-Resources#standalone-vs-runtime-builds" target="_blank" rel="external">在webpack中设置vue的别名</a>；</li>
+<li>随着升级2.0，vue生态的其它插件也有升级情况，webpack配置也有变化，建议更换。（ps：yarn第一次的install的时候也很慢···）</li>
 </ul>
-<h3 id="xhtml和html的区别"><a href="#xhtml和html的区别" class="headerlink" title="xhtml和html的区别"></a>xhtml和html的区别</h3><blockquote>
-<p>最主要的不同:</p>
-</blockquote>
-<ul>
-<li>XHTML可以理解为html+xml，就是用xml的语法来规范html。</li>
-<li>XHTML 元素必须被正确地嵌套。</li>
-<li>XHTML 元素必须被关闭。</li>
-<li>标签名必须用小写字母。</li>
-<li>XHTML 文档必须拥有根元素。</li>
-</ul>
-<h3 id="使用data-的好处"><a href="#使用data-的好处" class="headerlink" title="使用data-的好处"></a>使用data-的好处</h3><blockquote>
-<p>可以进行数据存放， 可以解决自定义属性混乱无管理的现状</p>
-</blockquote>
-<h3 id="meta标签"><a href="#meta标签" class="headerlink" title="meta标签"></a>meta标签</h3><blockquote>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta</a></p>
-</blockquote>
-<h3 id="canvas"><a href="#canvas" class="headerlink" title="canvas"></a>canvas</h3><blockquote>
-<p>canvas 元素用于在网页上绘制图形<br><a href="http://www.w3school.com.cn/html5/html_5_canvas.asp">http://www.w3school.com.cn/html5/html_5_canvas.asp</a></p>
-</blockquote>
-<h3 id="HTML废弃的标签"><a href="#HTML废弃的标签" class="headerlink" title="HTML废弃的标签"></a>HTML废弃的标签</h3><blockquote>
-<p><code>&lt;big&gt;</code> <code>&lt;center&gt;</code> <code>&lt;font&gt;</code> <code>&lt;frame&gt;</code> <code>&lt;bgsound&gt;</code></p>
-</blockquote>
-<h3 id="IE6-bug，和一些定位写法"><a href="#IE6-bug，和一些定位写法" class="headerlink" title="IE6 bug，和一些定位写法"></a>IE6 bug，和一些定位写法</h3><blockquote>
-<p><a href="http://www.51xuediannao.com/html+css/htmlcssjq/139.html">http://www.51xuediannao.com/html+css/htmlcssjq/139.html</a></p>
-</blockquote>
-<h3 id="css-js放置位置和原因"><a href="#css-js放置位置和原因" class="headerlink" title="css js放置位置和原因"></a>css js放置位置和原因</h3><blockquote>
-<p>css放在head中， 是因为浏览器解析html文档是自上而下的，如果放底部的话，页面结构出来了，css还没开始渲染，可能会看到只有结构的页面。CSS 应当写在 head 中，以避免页面元素由于样式确实造成瞬间的白页或者给用户闪烁感。而js放在</body>之前，是因为JS可能会改变DOM树，也可能依赖css样式。如果放在前面，那么DOM和css可能还加载，这样容易报错。还有一个，我觉得是加载速度的问题，js放前面，页面会先去加载他，拖慢了时间，使用户一定时间内看不到网页内容。</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/15/前端知识点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+          
         
       
     </div>
@@ -1258,7 +1254,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
