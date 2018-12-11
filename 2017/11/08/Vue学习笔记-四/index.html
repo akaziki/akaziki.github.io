@@ -114,7 +114,7 @@ vue-migration-helper第一步是使用官方的升级助手vue-migration-helper�
 
 vue-migration-helper第一步是使用官方的升级助手vue-migration-helper检测项目代码中可能需要升级的地方。我的小项">
 <meta property="og:image" content="https://cloud.githubusercontent.com/assets/12537013/17702060/f847b38a-63fe-11e6-9c29-38e58d46f036.png">
-<meta property="og:updated_time" content="2018-11-30T02:58:55.457Z">
+<meta property="og:updated_time" content="2018-12-11T05:54:41.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue学习笔记-四">
 <meta name="twitter:description" content="升级vue2.0
@@ -354,11 +354,6 @@ vue-migration-helper第一步是使用官方的升级助手vue-migration-helper�
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
 
           
 
@@ -398,6 +393,7 @@ vue-migration-helper第一步是使用官方的升级助手vue-migration-helper�
 </blockquote>
 <p><code>render()</code> 接收一个叫 <code>createElement</code> 的函数作为形参，它的作用是创建<strong>虚拟DOM节点</strong>。<code>createElement</code>说明如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 返回虚拟DOM对象</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">// &#123;String | Object | Function&#125;</span></div><div class="line">  <span class="comment">// 必选项，HTML节点名，自定义组件或者返回这些的函数</span></div><div class="line">  <span class="string">'div'</span>,</div><div class="line">  <span class="comment">// &#123;Object&#125;</span></div><div class="line">  <span class="comment">// 一个对象，描述了用在template中的属性</span></div><div class="line">  &#123;</div><div class="line">    <span class="comment">// (比如props)</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// &#123;String | Array&#125;</span></div><div class="line">  <span class="comment">// 子节点集合，可以是字符串或者是另一个createElement函数</span></div><div class="line">  [</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'hello world'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      props: &#123;</div><div class="line">        someProp: <span class="string">'foo'</span></div><div class="line">      &#125;</div><div class="line">    &#125;),</div><div class="line">    <span class="string">'bar'</span></div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="createElement第二个形参详解"><a href="#createElement第二个形参详解" class="headerlink" title="createElement第二个形参详解"></a>createElement第二个形参详解</h3><p>上文说了这是个描述template中涉及属性的对象，一般来说我们在template中用到的无非：<code>v-bind</code>，<code>v-on</code>，<code>slot</code>，<code>key</code>，<code>ref</code>和某些原生DOM属性，下面是一个较为完整的示例：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="comment">// Same API as `v-bind:class`</span></div><div class="line">  <span class="string">'class'</span>: &#123;</div><div class="line">    foo: <span class="literal">true</span>,</div><div class="line">    bar: <span class="literal">false</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Same API as `v-bind:style`</span></div><div class="line">  style: &#123;</div><div class="line">    color: <span class="string">'red'</span>,</div><div class="line">    fontSize: <span class="string">'14px'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Normal HTML attributes</span></div><div class="line">  attrs: &#123;</div><div class="line">    id: <span class="string">'foo'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// Component props</span></div><div class="line">  props: &#123;</div><div class="line">    myProp: <span class="string">'bar'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// DOM properties</span></div><div class="line">  domProps: &#123;</div><div class="line">    innerHTML: <span class="string">'baz'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 使用v-on绑定的事件处理函数</span></div><div class="line">  on: &#123;</div><div class="line">    click: <span class="keyword">this</span>.clickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 仅用于在自定义组件上绑定原生事件的native描述符</span></div><div class="line">  nativeOn: &#123;</div><div class="line">    click: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// 自定义指令</span></div><div class="line">  directives: [</div><div class="line">    &#123;</div><div class="line">      name: <span class="string">'my-custom-directive'</span>, </div><div class="line">      value: <span class="string">'2'</span></div><div class="line">      expression: <span class="string">'1 + 1'</span>,</div><div class="line">      arg: <span class="string">'foo'</span>,</div><div class="line">      modifiers: &#123;</div><div class="line">        bar: <span class="literal">true</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  ],</div><div class="line">  <span class="comment">// The name of a slot if the child of a component</span></div><div class="line">  slot: <span class="string">'name-of-slot'</span></div><div class="line">  <span class="comment">// Other special top-level properties</span></div><div class="line">  key: <span class="string">'myKey'</span>,</div><div class="line">  ref: <span class="string">'myRef'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="在reder中使用JSX"><a href="#在reder中使用JSX" class="headerlink" title="在reder中使用JSX"></a>在reder中使用JSX</h3><p>通过 <strong>Babel plugin</strong> 的支持，现在你可以在vue中使用JSX语法了！（<a href="https://github.com/vuejs/babel-plugin-transform-vue-jsx" target="_blank" rel="external">插件地址</a>）它所做的事是将JSX语法的模板转换为render函数：</p>
@@ -697,26 +693,6 @@ vue-migration-helper第一步是使用官方的升级助手vue-migration-helper�
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
 
 
@@ -913,5 +889,5 @@ vue-migration-helper第一步是使用官方的升级助手vue-migration-helper�
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 </html>

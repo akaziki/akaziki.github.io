@@ -102,7 +102,7 @@ menu">
 menu-header：头部结构，包含店铺信息，搜索模块等；
 menu">
 <meta property="og:image" content="http://oenqoxl4h.bkt.clouddn.com/orderMenu.jpg">
-<meta property="og:updated_time" content="2018-11-30T02:55:11.747Z">
+<meta property="og:updated_time" content="2018-12-11T05:54:29.281Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue学习笔记-三">
 <meta name="twitter:description" content="部分最基本的功能
@@ -336,11 +336,6 @@ menu">
           
 
           
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
-          
 
           
 
@@ -375,6 +370,7 @@ menu">
 <h2 id="数据设计"><a href="#数据设计" class="headerlink" title="数据设计"></a>数据设计</h2><p>既然是一个点菜的页面，那么菜品信息必然是主要的部分：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dishs = [&#123;</div><div class="line">    catalog: <span class="string">"招牌鲜鱼"</span>,</div><div class="line">    catalogID: <span class="number">1100</span>,</div><div class="line">    dishs: [&#123;</div><div class="line">        dishID: <span class="number">100</span>,</div><div class="line">        dishName: <span class="string">"花鲢"</span>,</div><div class="line">        dishDesc: <span class="string">"约350g，原产地当日直供。本店所有鱼均由省重点养殖企业 龙华渔场 提供。"</span>,</div><div class="line">        dishPrice: <span class="number">25</span>,</div><div class="line">        likeNum: <span class="number">488</span>,</div><div class="line">        imgSrc: <span class="built_in">require</span>(<span class="string">'../img/hualian1.jpg'</span>),</div><div class="line">        isCombo: <span class="literal">false</span>,</div><div class="line">        isPromotion: <span class="literal">true</span>,</div><div class="line">        searchKey: [<span class="string">"招牌推荐"</span>, <span class="string">"鱼类"</span>, <span class="string">"热门"</span>],</div><div class="line">        dishNum: <span class="number">0</span>,</div><div class="line">       imgSrcs: &#123;</div><div class="line">        smallSrcs: [],</div><div class="line">            bigSrcs: []</div><div class="line">       &#125;</div><div class="line">    &#125;, &#123;</div><div class="line">        <span class="comment">// 次分类的下一道菜品</span></div><div class="line">       <span class="comment">// ...</span></div><div class="line">    &#125;]</div><div class="line">&#125;, &#123;</div><div class="line">    <span class="comment">// 下一个分类</span></div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
 <p>在实际中页面渲染可以在客户端或者服务端，在客户端可以通过网络请求获取JSON格式的数据，或者从<strong>本地存储</strong>（localStorage）中读取，服务端渲染则是计算出可用的HTML和相应的CSS，JS直接返回给客户端。</p>
+<a id="more"></a>
 <h2 id="组件设计"><a href="#组件设计" class="headerlink" title="组件设计"></a>组件设计</h2><p>这个项目是Vue+webpack，所以可以使用<code>vue-html-loader</code>，<code>vue-loader</code>，<code>vue-style-loader</code>来处理<code>.vue</code>文件，将html模板，组件样式和js都写在一个文件里，实现更完美的组件封装，我觉得这种方式相对于react等框架的一个明显优点就是我们可以更好的管理css。 下面是一个<code>.vue</code>文件的大致结构：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;div id=<span class="string">"app"</span>&gt;</div><div class="line">        &lt;menu-header&gt;&lt;/menu-header&gt;</div><div class="line">        &lt;menu-item&gt;&lt;/menu-item&gt;</div><div class="line">        &lt;menu-cart&gt;&lt;/menu-cart&gt;</div><div class="line">        &lt;pic-card&gt;&lt;/pic-card&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">import MenuHeader from './components/MenuHeader'</div><div class="line">import MenuItem from './components/MenuItem.vue'</div><div class="line">import MenuCart from './components/MenuCart.vue'</div><div class="line">import PicCard from './components/PicCard.vue'</div><div class="line">import dishsData from './data/dishs.js'</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">    data: function() &#123;</div><div class="line">        return &#123;</div><div class="line">            filterKey: '',</div><div class="line">            totalNum: 0,</div><div class="line">            totalPri: 0,</div><div class="line">            lockScroll: false,</div><div class="line">            picCardSrcs: '',</div><div class="line">            showPicCard: false,</div><div class="line">            activeIndex: 0,</div><div class="line">            catalogPos: [],</div><div class="line">            orderedDishs: &#123;</div><div class="line">                pos: [],</div><div class="line">                num: []</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;,</div><div class="line">    components: &#123;</div><div class="line">        MenuHeader,</div><div class="line">        MenuItem,</div><div class="line">        MenuCart,</div><div class="line">        PicCard</div><div class="line">    &#125;,</div><div class="line">    created: function() &#123;&#125;,</div><div class="line">    ready: function() &#123;&#125;,</div><div class="line">    methods: &#123;</div><div class="line">        initCatalogPos: function() &#123;&#125;,</div><div class="line">        initOrderedDishs: function() &#123;&#125;,</div><div class="line">        getDishPos: function(id) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    watch: &#123;</div><div class="line">        orderedDishs: function(nv, ov) &#123;&#125;</div><div class="line">    &#125;,</div><div class="line">    events: &#123;</div><div class="line">        updateCatalog: function(index) &#123;&#125;,</div><div class="line">        updataFilterkey: function(val) &#123;&#125;,</div><div class="line">        addCart: function(id) &#123;&#125;,</div><div class="line">        minusCart: function(id) &#123;&#125;,</div><div class="line">        toggleScroll: function() &#123;&#125;,</div><div class="line">        openPicCard: function(srcs) &#123;&#125;,</div><div class="line">        closePicCard: function() &#123;&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;style&gt;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
 <ul>
@@ -678,26 +674,6 @@ menu">
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
-
 
 
 
@@ -894,5 +870,5 @@ menu">
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
 </html>
